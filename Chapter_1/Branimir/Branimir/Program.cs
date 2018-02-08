@@ -9,7 +9,7 @@ namespace Branimir
 {
     class Program
     {
-        public delegate int MaxDelegate(int[] data);
+        public delegate int MaxDelegate(IEnumerable<int> data);
 
         private static int[] data = Enumerable.Range(0,99999).ToArray();
 
@@ -21,7 +21,7 @@ namespace Branimir
             Console.WriteLine("Time taken: {0}ms, result: {1}", sw.Elapsed.TotalMilliseconds, result);
         }
 
-        private static int FrameworkMax(int[] data)
+        private static int FrameworkMax(IEnumerable<int> data)
         {
             return data.Max();
         }
