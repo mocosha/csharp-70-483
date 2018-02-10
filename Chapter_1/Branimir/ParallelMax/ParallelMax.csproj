@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C58FCF41-AC72-4709-B3EF-B9B471885214}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Branimir</RootNamespace>
-    <AssemblyName>Branimir</AssemblyName>
+    <RootNamespace>ParallelMax</RootNamespace>
+    <AssemblyName>ParallelMax</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Generator.cs" />
     <Compile Include="Maxx.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
