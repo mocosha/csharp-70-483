@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestDataGenerator;
 
 namespace Branimir
 {
@@ -28,6 +29,14 @@ namespace Branimir
 
         static void Main(string[] args)
         {
+            Console.WriteLine("--PARALLEL MAX BENCHMARK--");
+
+            var data = Generator.GenerateNumbers();
+
+            //.NET FRAMEWORK
+            //MSDN: https://msdn.microsoft.com/en-us/library/bb347632(v=vs.110).aspx
+            //Implementation: https://referencesource.microsoft.com/#System.Core/System/Linq/Enumerable.cs,dd1aa43ba83e50eb
+            Console.WriteLine("Framework Max()");
             MaxDelegate myMethod = FrameworkMax;
             Benchmark(myMethod, data);
 

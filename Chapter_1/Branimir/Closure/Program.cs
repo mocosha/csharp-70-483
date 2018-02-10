@@ -17,6 +17,7 @@ namespace Closure
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("--CLOSURES--");
             FilterExample();
             //MessangerExample();
             Console.ReadLine();
