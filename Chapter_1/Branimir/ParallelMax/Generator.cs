@@ -7,7 +7,7 @@ namespace TestDataGenerator
     class Generator
     {
         private const String TestDataFileName = "test_data.txt";
-        private const int Max = 10000;
+        private static int Max = 12;
         private const int Min = 0;
 
         private static int[] ReadFromFile()
@@ -63,8 +63,10 @@ namespace TestDataGenerator
             File.Delete(TestDataFileName);
         }
 
-        public static int[] GenerateNumbers(bool refreshData = false)
+        public static int[] GenerateNumbers(int max, bool refreshData = false)
         {
+            Max = max;
+
             if (refreshData)
             {
                 return GenerateIntArray();
