@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace TestDataGenerator
 {
-    class Generator
+    public class Generator
     {
         private const String TestDataFileName = "test_data.txt";
-        private const int Max = 10000;
+        private const int Max = 1000000;
         private const int Min = 0;
 
         private static int[] ReadFromFile()
@@ -55,7 +55,6 @@ namespace TestDataGenerator
                 SaveToFile(data);
             }
             return data;
-
         }
 
         public static void ClearCache()
