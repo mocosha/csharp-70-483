@@ -9,6 +9,8 @@ namespace Closure
 
     class Messenger
     {
+        private static int totalCounter = 0;
+
         public static Func<string, string> CreatePostMessageAction(string name)
         {
             int counter = 0;
@@ -18,7 +20,8 @@ namespace Closure
                 // Yes, it could be done in one statement; 
                 // but it is clearer like this.
                 counter++;
-                var result = string.Format("[{0}:{1}]> {2}", name, counter, message);
+                totalCounter++;
+                var result = string.Format("[{0}:{1} of {2}]> {3}", name, counter, totalCounter, message);
                 Console.WriteLine(result);
                 return result;
             };

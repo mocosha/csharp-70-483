@@ -42,18 +42,19 @@ namespace Bojan
             //https://docs.microsoft.com/en-us/dotnet/api/system.multicastdelegate?view=netframework-4.7.1
             //SimpleDel del = Hello;
             //del += Goodbye;
-            SimpleDel hello = Hello;
-            SimpleDel goodbye = Goodbye;
-            SimpleDel del = (SimpleDel)Delegate.Combine(hello, goodbye);
-            ShowAllMethods(del);
-            del("Bojan");
+            //SimpleDel hello = Hello;
+            //SimpleDel goodbye = Goodbye;
+            //SimpleDel del = (SimpleDel)Delegate.Combine(hello, goodbye);
+            //ShowAllMethods(del);
+            //del("Bojan");
+
+            //TODO: get all results?
 
             //Covariance and Contravariance 
             //http://www.tutorialsteacher.com/csharp/csharp-covariance-and-contravariance
             HandlerMethod handlerAnimal = AnimalHandler;
             // Covariance enables this assignment.  
             HandlerMethod handlerDogs = DogsHandler;
-            
 
             Console.ReadKey();
         }

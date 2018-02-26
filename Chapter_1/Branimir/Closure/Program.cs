@@ -18,8 +18,8 @@ namespace Closure
         static void Main(string[] args)
         {
             Console.WriteLine("--CLOSURES--");
-            FilterExample();
-            //MessangerExample();
+            //FilterExample();
+            MessengerExample();
             Console.ReadLine();
         }
 
@@ -47,12 +47,14 @@ namespace Closure
                     return i < k;
                 };
 
-            //k++;
+            ListUtil.Filter(l, filterFun);
+
+            k++;
 
             ListUtil.Filter(l, filterFun);
         }
 
-        private static void MessangerExample()
+        private static void MessengerExample()
         {
             var postMessageAlice = Messenger.CreatePostMessageAction("Alice");
             var postMessageBob = Messenger.CreatePostMessageAction("Bob");
