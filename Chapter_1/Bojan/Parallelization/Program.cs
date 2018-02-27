@@ -8,7 +8,9 @@ namespace Bojan
     class Program
     {
         static Stopwatch stopwatch = new Stopwatch();
-        static int[] items = DummyData.Get();
+        //static int[] items = DummyData.Get();
+        static int[] items = Generator.GenerateNumbers(1000000, refreshData: true);
+
         static int partitionCount = 10;
 
         public static void Banchmark(GetMax max)
