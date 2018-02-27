@@ -17,7 +17,7 @@ namespace ParallelMax
 
         public static int PartitionMax(this int[] source, int startIndex, int endIndex)
         {
-            //Console.Write("{0} ", Thread.CurrentThread.ManagedThreadId);
+            Console.Write("{0} ", Thread.CurrentThread.ManagedThreadId);
             var m = source[startIndex];
 
             for (int i = startIndex + 1; i < endIndex; i++)
@@ -79,7 +79,7 @@ namespace ParallelMax
         public static int MaxPlinqMyPartitioner(this int[] source, int numberOfPartitions)
         {
             var partitions = CreatePartitions(source.Length, numberOfPartitions);
-            //Console.Write("\tThreads: ");
+            Console.Write("\tThreads: ");
             var intermediate = partitions.AsParallel().Select(p => source.PartitionMax(p.Item1, p.Item2)).ToArray();
             return intermediate.PartitionMax(0, intermediate.Length);
         }
@@ -119,6 +119,7 @@ namespace ParallelMax
                 threads[j] = new Thread(() => intermediate[j] = source.PartitionMax(p.Item1, p.Item2));
             }
 
+          
             foreach (var thread in threads) thread.Join();
 
             return intermediate.PartitionMax(0, numberOfPartitions);

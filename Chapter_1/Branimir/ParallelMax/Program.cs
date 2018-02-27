@@ -26,11 +26,11 @@ namespace ParallelMax
             var data = Generator.GenerateNumbers(9999999, refreshData: true);
 
             FrameworkMax(data);
-            PlinqMax(data);
-            PlinqPartitionedMax(data);
+            //PlinqMax(data);
+            //PlinqPartitionedMax(data);
             PlinqMyPartitionerMax(data, 100);
-            TaskMyPartitionerMax(data, 100);
-            TaskAsyncMax(data, 100);
+            TaskMyPartitionerMax(data, 10);            
+            TaskAsyncMax(data, 10);            
             ThreadMyPartitionerMax(data, 10);
             //ThreadBadBoyMax(data, 10);
 

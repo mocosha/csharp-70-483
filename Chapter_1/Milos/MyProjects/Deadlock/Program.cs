@@ -53,19 +53,21 @@ namespace Deadlock
             {
                 lock (lockA)
                 {
+                    Console.WriteLine("step1");
                     Thread.Sleep(3000);
                     lock (lockB)
                     {
-                        Console.WriteLine("Locked A and B");
+                        Console.WriteLine("up -> Locked A and B");
                     }
                 }
             });
-
+            Thread.Sleep(1000);
             lock (lockB)
             {
+                Console.WriteLine("step2");
                 lock (lockA)
                 {
-                    Console.WriteLine("Locked A and B");
+                    Console.WriteLine("main -> Locked A and B");
                 }
             }
             up.Wait();
@@ -75,9 +77,9 @@ namespace Deadlock
         {
             string path = "foo.txt";
 
-            //  File.Create(path);
+            //File.Create(path);
 
-            var writter1 = new Writter(path, false);
+            var writter1 = new Writter(path, true);
 
             var t1 = Task.Run(() =>
             {
@@ -126,7 +128,7 @@ namespace Deadlock
             try
             {
                 //SimpleExample();
-                // FileSystemExample();
+                //FileSystemExample();
                 DeadlockExample();
             }
             catch (Exception e)
