@@ -138,7 +138,7 @@ namespace MaxValueLibrary
             //int max = FindMaxValue(testArr, 1);
 
 
-            FindMaxValueWithThreads(testArr, 1);
+            FindMaxValueWithThreads(testArr, 4);
 
            // stopwatch.Stop();
 
