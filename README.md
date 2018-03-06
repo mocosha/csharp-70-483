@@ -7,6 +7,11 @@
 - 1.4: Create and implement events and callbacks Objective
 - 1.5: Implement exception handling
 
+### Exercises:
+- Implemenet parallel Max(), using Threads, Tasks and Parallel Library
+- Clojure
+- Deadlock
+
 ## 2. Create and use types
 - 2.1: Create types
 - 2.2: Consume types
@@ -15,3 +20,22 @@
 - 2.5: Find, execute, and create types at runtime by using reflection
 - 2.6: Manage the object life cycle
 - 2.7: Manipulate strings
+
+### Exercises (ideas):
+- Implement data structure using generics:
+  - Binary tree
+  - Double linked list
+  - Set
+
+- Design patterns:
+  - Singleton: Proper c# implementation, when not to use it
+  - Fluent Builder
+  - Chain of Responsibility
+  - Decorator
+  - State pattern
+  - Visitor pattern
+
+- Other:
+  - Strings
+  - Reflection
+  - Solve "if (Result.Status != Success)..." in our codebase
