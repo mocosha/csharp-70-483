@@ -11,6 +11,7 @@
 - Implemenet parallel Max(), using Threads, Tasks and Parallel Library
 - Clojure
 - Deadlock
+- Multicast
 
 ## 2. Create and use types
 - 2.1: Create types
@@ -25,7 +26,7 @@
 - Implement data structure using generics:
   - Binary tree
   - Double linked list
-  - Set
+  - Set, Stack
 
 - Design patterns:
   - Singleton: Proper c# implementation, when not to use it
