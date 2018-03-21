@@ -33,9 +33,33 @@ namespace Stack
 
         static void Main(string[] args)
         {
-            StackUsageSample();
+            //StackUsageSample();
+            
+            DoubleLinkedListUsageSample();
 
             Console.ReadLine();
+        }
+
+        private static void DoubleLinkedListUsageSample()
+        {
+            var address = new DoubleLinkedList();
+            address.Add("Nehruova 56");
+            address.Add("Djordja Stanojevica 11g");
+            var r = address.Values();
+            Console.WriteLine(r);
+
+            //var item = address.Find("nehruova 56");
+            //Console.WriteLine("Found: {0}", item);
+            //item = address.Find("2nehruova 56");
+            //Console.WriteLine("Found: {0}", item);
+
+            address.Add("Test Adres");
+            var values =  address.Values();
+            Console.WriteLine(values);
+            address.Delete("Djordja Stanojevica 11g");
+            values = address.Values();
+            Console.WriteLine(values);
+            Console.ReadKey();
         }
     }
 }
