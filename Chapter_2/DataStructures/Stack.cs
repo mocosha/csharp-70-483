@@ -9,6 +9,9 @@ namespace Stack
     /// <summary>
     /// Educational purpose only stack implementation
     /// Interface https://msdn.microsoft.com/en-us/library/bb339909(v=vs.110).aspx?
+    /// 
+    /// TODO: Interface IStack, ICollection, allocate additional memory when capacity is exceeded
+    /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Stack<T>
