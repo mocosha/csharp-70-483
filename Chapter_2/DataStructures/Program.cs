@@ -9,6 +9,17 @@ namespace DataStructures
 {
     class Program
     {
+        static void Main(string[] args)
+        {
+            //StackUsageSample();
+            
+            //DoubleLinkedListUsageSample();
+
+            SetUsageSample();
+
+            Console.ReadLine();
+        }
+
         static void StackUsageSample()
         {
             var stack = new Stack<int>();
@@ -28,17 +39,6 @@ namespace DataStructures
                 Console.Write("{0} ", stack.Pop());
 
             Console.WriteLine();
-        }
-
-        static void Main(string[] args)
-        {
-            //StackUsageSample();
-            
-            //DoubleLinkedListUsageSample();
-
-            SetUsageSample();
-
-            Console.ReadLine();
         }
 
         private static void SetUsageSample()
@@ -80,10 +80,7 @@ namespace DataStructures
             foreach (var item in theSameHashCodeItems)
                 setAddAndWriteCount(item);
 
-            var set2 = new Set<string>();
-            set2.Add("Bojan");
-            set2.Add("Mlađan");
-
+            var set2 = new Set<string>() { "Bojan", "Mlađan" };
             
             set.UnionWith(set2);
 
