@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Stack
+namespace DataStructures
 {
     /// <summary>
     /// Educational purpose only stack implementation
