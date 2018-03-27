@@ -36,7 +36,8 @@ namespace DataStructures
         {
             return 
                 _count == 0 ? 
-                    false 
+                    false
+                    //: _items.Take(_count).Any(i => i.Equals(item));
                     : _items.Take(_count).Any(i => i.Equals(item));
         }
 

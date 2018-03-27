@@ -13,9 +13,9 @@ namespace DataStructures
         {
             //StackUsageSample();
             
-            //DoubleLinkedListUsageSample();
+            DoubleLinkedListUsageSample();
 
-            SetUsageSample();
+            //SetUsageSample();
 
             Console.ReadLine();
         }
@@ -81,7 +81,7 @@ namespace DataStructures
                 setAddAndWriteCount(item);
 
             var set2 = new Set<string>() { "Bojan", "Mlađan" };
-            
+
             set.UnionWith(set2);
 
             void WriteSet(Set<string> mySet, string message)
@@ -99,12 +99,12 @@ namespace DataStructures
 
             set.Remove("Branimir");
 
-            WriteSet(set, "Remove Mladjan");
+            WriteSet(set, "Remove Branimir");
 
             Console.WriteLine();
 
             Console.WriteLine($"Overlaps: {set.Overlaps(set2)}");
-            Console.WriteLine($"Overlaps: {set.Overlaps(new Set<string> {"1", "2" })}");
+            Console.WriteLine($"Overlaps: {set.Overlaps(new Set<string> { "1", "2" })}");
             //Console.WriteLine($"Overlaps: {set.Overlaps(new Set<int> { 1, 2 })}");
         }
 

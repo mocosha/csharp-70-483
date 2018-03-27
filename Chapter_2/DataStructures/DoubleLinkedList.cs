@@ -2,25 +2,25 @@
 
 namespace DataStructures
 {
-    public class Node
+    public class Node<T> where T : IEquatable<T>
     {
-        public Node(string value)
+        public Node(T value)
         {
-            if (string.IsNullOrWhiteSpace(value))
+            if (value == null)
                 throw new ArgumentNullException(nameof(value));
 
             _value = value;
         }
 
-        public Node Previous { get; set; }
-        public Node Next { get; set; }
+        public Node<T> Previous { get; set; }
+        public Node<T> Next { get; set; }
 
         public override string ToString()
         {
-            return _value;
+            return _value.ToString();
         }
 
-        private string _value;
+        private T _value;
     }
 
     public class DoubleLinkedList
@@ -43,14 +43,14 @@ namespace DataStructures
             return GetValue(_head);
         }
 
-        public Node Find(string title)
+        public Node<string> Find(string title)
         {
             return Find(_head, title);
         }
 
         public void Add(string value)
         {
-            var nodeForAdd = new Node(value);
+            var nodeForAdd = new Node<string>(value);
 
             var node = Find(value);
             if (node != null)
@@ -89,7 +89,7 @@ namespace DataStructures
             }
         }
 
-        private Node Find(Node node, string title)
+        private Node<string> Find(Node<string> node, string title)
         {
             if (node == null)
                 return null;
@@ -100,7 +100,7 @@ namespace DataStructures
             return Find(node.Next, title);
         }
 
-        private string GetValue(Node node)
+        private string GetValue(Node<string> node)
         {
             if (node == null)
                 return "";
@@ -108,7 +108,7 @@ namespace DataStructures
             return $"{node}|" + GetValue(node.Next);
         }
 
-        private Node _head;
-        private Node _current;
+        private Node<string> _head;
+        private Node<string> _current;
     }
 }
