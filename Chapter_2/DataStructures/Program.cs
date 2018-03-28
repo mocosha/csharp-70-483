@@ -12,7 +12,7 @@ namespace DataStructures
         static void Main(string[] args)
         {
             //StackUsageSample();
-            
+
             DoubleLinkedListUsageSample();
 
             //SetUsageSample();
@@ -110,24 +110,34 @@ namespace DataStructures
 
         private static void DoubleLinkedListUsageSample()
         {
-            var address = new DoubleLinkedList();
-            address.Add("Nehruova 56");
-            address.Add("Djordja Stanojevica 11g");
-            var r = address.Values();
-            Console.WriteLine(r);
+            var addresses = new DoubleLinkedList();
+            Console.WriteLine(addresses.Values());
+            addresses.AddToEnd("Nehruova 56");
+            Console.WriteLine(addresses.Values());
+            addresses.Delete("Nehruova 56");
+            Console.WriteLine(addresses.Values());
 
-            //var item = address.Find("nehruova 56");
-            //Console.WriteLine("Found: {0}", item);
-            //item = address.Find("2nehruova 56");
-            //Console.WriteLine("Found: {0}", item);
+            addresses.AddToEnd("Djordja Stanojevica 11g");
+            addresses.AddToEnd("Jurija Gagarina 13");
+            addresses.AddToEnd("Jurija Gagarina 144");
+            Console.WriteLine(addresses.Values());
 
-            address.Add("Test Adres");
-            var values =  address.Values();
-            Console.WriteLine(values);
-            address.Delete("Djordja Stanojevica 11g");
-            values = address.Values();
-            Console.WriteLine(values);
-            Console.ReadKey();
+            addresses.Delete("Jurija Gagarina 13");
+            Console.WriteLine(addresses.Values());
+
+            var searchText = "nehruova 56";
+            var item = addresses.Find(searchText);
+            Console.WriteLine("Search text {0}; Found: {1}", searchText, item);
+            searchText = "Djordja Stanojevica 11g";
+            item = addresses.Find(searchText);
+            Console.WriteLine("Search text {0}; Found: {1}", searchText, item);
+
+            addresses.AddToEnd("Test adresa 1");
+            addresses.AddToEnd("Test adresa 2");
+            Console.WriteLine(addresses.Values());
+
+            addresses.Delete("Djordja Stanojevica 11g");
+            Console.WriteLine(addresses.Values());
         }
     }
 }

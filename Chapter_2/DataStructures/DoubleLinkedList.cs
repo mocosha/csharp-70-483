@@ -38,7 +38,7 @@ namespace DataStructures
         public string Values()
         {
             if (IsEmpty())
-                return "";
+                return "Empty list";
 
             return GetValue(_head);
         }
@@ -48,7 +48,18 @@ namespace DataStructures
             return Find(_head, title);
         }
 
-        public void Add(string value)
+        private Node<string> GetLast(Node<string> node)
+        {
+            if (node == null)
+                return null;
+
+            if (node.Next == null)
+                return node;
+
+            return GetLast(node.Next);
+        }
+
+        public void AddToEnd(string value)
         {
             var nodeForAdd = new Node<string>(value);
 
@@ -59,18 +70,21 @@ namespace DataStructures
             if (_head == null)
             {
                 _head = nodeForAdd;
-                _current = _head;
             }
             else
             {
-                _current.Next = nodeForAdd;
-                nodeForAdd.Previous = _current;
-                _current = nodeForAdd;
+                var last = GetLast(_head);
+
+                nodeForAdd.Previous = last;
+                last.Next = nodeForAdd;
             }
         }
 
         public bool Delete(string title)
         {
+            if (IsEmpty())
+                return false;
+
             var nodeForDelete = Find(title);
             if (nodeForDelete == null)
                 return false;
@@ -79,12 +93,32 @@ namespace DataStructures
                 var next = nodeForDelete.Next;
                 var previous = nodeForDelete.Previous;
 
-                if (previous != null)
-                    previous.Next = next;
+                if (next == null && previous == null)
+                {
+                    _head = null;
+                    return true;
+                }
 
-                if (next != null)
-                    next.Previous = previous;
 
+                if (previous == null) // delete head
+                {
+                    var newHead = _head.Next;
+                    newHead.Previous = null;
+                    _head.Next = null;
+                    _head = newHead;
+                    return true;
+                }
+
+                if (next == null) // delete last
+                {
+                    var newLast = nodeForDelete.Previous;
+                    newLast.Next = null;
+                    nodeForDelete.Previous = null;
+                    return true;
+                }
+
+                previous.Next = next;
+                next.Previous = previous;
                 return true;
             }
         }
@@ -109,6 +143,5 @@ namespace DataStructures
         }
 
         private Node<string> _head;
-        private Node<string> _current;
     }
 }
