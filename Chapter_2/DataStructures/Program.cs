@@ -108,36 +108,49 @@ namespace DataStructures
             //Console.WriteLine($"Overlaps: {set.Overlaps(new Set<int> { 1, 2 })}");
         }
 
+        private static void ShowItems<T>(IEnumerable<T> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
         private static void DoubleLinkedListUsageSample()
         {
-            var addresses = new DoubleLinkedList();
-            Console.WriteLine(addresses.Values());
+            var addresses = new DoubleLinkedList<string>();
+            ShowItems(addresses);
+            Console.WriteLine(new string('-', 10));
             addresses.AddToEnd("Nehruova 56");
-            Console.WriteLine(addresses.Values());
+            ShowItems(addresses);
+            Console.WriteLine(new string('-', 10));
             addresses.Delete("Nehruova 56");
-            Console.WriteLine(addresses.Values());
+            ShowItems(addresses);
+            Console.WriteLine(new string('-', 10));
 
             addresses.AddToEnd("Djordja Stanojevica 11g");
             addresses.AddToEnd("Jurija Gagarina 13");
             addresses.AddToEnd("Jurija Gagarina 144");
-            Console.WriteLine(addresses.Values());
+            ShowItems(addresses);
+            Console.WriteLine(new string('-', 10));
 
             addresses.Delete("Jurija Gagarina 13");
-            Console.WriteLine(addresses.Values());
+            ShowItems(addresses);
+            Console.WriteLine(new string('-', 10));
 
-            var searchText = "nehruova 56";
-            var item = addresses.Find(searchText);
-            Console.WriteLine("Search text {0}; Found: {1}", searchText, item);
-            searchText = "Djordja Stanojevica 11g";
-            item = addresses.Find(searchText);
-            Console.WriteLine("Search text {0}; Found: {1}", searchText, item);
-
+            var searchAddress = "nehruova 56";
+            var item = addresses.Find(searchAddress);
+            Console.WriteLine("Search text {0}; Found: {1}", searchAddress, item);
+            searchAddress = "Djordja Stanojevica 11g";
+            item = addresses.Find(searchAddress);
+            Console.WriteLine("Search text {0}; Found: {1}", searchAddress, item);
+            Console.WriteLine(new string('-', 10));
             addresses.AddToEnd("Test adresa 1");
             addresses.AddToEnd("Test adresa 2");
-            Console.WriteLine(addresses.Values());
-
+            ShowItems(addresses);
+            Console.WriteLine(new string('-', 10));
             addresses.Delete("Djordja Stanojevica 11g");
-            Console.WriteLine(addresses.Values());
+            ShowItems(addresses);
         }
     }
 }

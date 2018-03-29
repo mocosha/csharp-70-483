@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace DataStructures
 {
@@ -15,15 +17,16 @@ namespace DataStructures
         public Node<T> Previous { get; set; }
         public Node<T> Next { get; set; }
 
+        public T Value => _value;
+        private T _value;
+
         public override string ToString()
         {
             return _value.ToString();
         }
-
-        private T _value;
     }
 
-    public class DoubleLinkedList
+    public class DoubleLinkedList<T>: IEnumerable<T> where T : IEquatable<T>
     {
         public DoubleLinkedList()
         {
@@ -35,20 +38,12 @@ namespace DataStructures
             return _head == null;
         }
 
-        public string Values()
+        public Node<T> Find(T value)
         {
-            if (IsEmpty())
-                return "Empty list";
-
-            return GetValue(_head);
+            return Find(_head, value);
         }
 
-        public Node<string> Find(string title)
-        {
-            return Find(_head, title);
-        }
-
-        private Node<string> GetLast(Node<string> node)
+        private Node<T> GetLast(Node<T> node)
         {
             if (node == null)
                 return null;
@@ -59,9 +54,9 @@ namespace DataStructures
             return GetLast(node.Next);
         }
 
-        public void AddToEnd(string value)
+        public void AddToEnd(T value)
         {
-            var nodeForAdd = new Node<string>(value);
+            var nodeForAdd = new Node<T>(value);
 
             var node = Find(value);
             if (node != null)
@@ -80,7 +75,7 @@ namespace DataStructures
             }
         }
 
-        public bool Delete(string title)
+        public bool Delete(T title)
         {
             if (IsEmpty())
                 return false;
@@ -123,25 +118,32 @@ namespace DataStructures
             }
         }
 
-        private Node<string> Find(Node<string> node, string title)
+        private Node<T> Find(Node<T> node, T value)
         {
             if (node == null)
                 return null;
 
-            if (string.Equals(node.ToString(), title, StringComparison.OrdinalIgnoreCase))
+            if (Equals(node.Value, value))
                 return node;
 
-            return Find(node.Next, title);
+            return Find(node.Next, value);
         }
 
-        private string GetValue(Node<string> node)
+        public IEnumerator<T> GetEnumerator()
         {
-            if (node == null)
-                return "";
-
-            return $"{node}|" + GetValue(node.Next);
+            var node = _head;
+            while (node != null)
+            {
+                yield return node.Value;
+                node = node.Next;
+            }
         }
 
-        private Node<string> _head;
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        private Node<T> _head;
     }
 }
