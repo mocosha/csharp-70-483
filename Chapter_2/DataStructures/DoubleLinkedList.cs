@@ -14,8 +14,8 @@ namespace DataStructures
             _value = value;
         }
 
-        public Node<T> Previous { get; set; }
-        public Node<T> Next { get; set; }
+        public Node<T> Left { get; set; }
+        public Node<T> Right { get; set; }
 
         public T Value => _value;
         private T _value;
@@ -48,10 +48,10 @@ namespace DataStructures
             if (node == null)
                 return null;
 
-            if (node.Next == null)
+            if (node.Right == null)
                 return node;
 
-            return GetLast(node.Next);
+            return GetLast(node.Right);
         }
 
         public void AddToEnd(T value)
@@ -70,8 +70,8 @@ namespace DataStructures
             {
                 var last = GetLast(_head);
 
-                nodeForAdd.Previous = last;
-                last.Next = nodeForAdd;
+                nodeForAdd.Left = last;
+                last.Right = nodeForAdd;
             }
         }
 
@@ -85,8 +85,8 @@ namespace DataStructures
                 return false;
             else
             {
-                var next = nodeForDelete.Next;
-                var previous = nodeForDelete.Previous;
+                var next = nodeForDelete.Right;
+                var previous = nodeForDelete.Left;
 
                 if (next == null && previous == null)
                 {
@@ -97,23 +97,23 @@ namespace DataStructures
 
                 if (previous == null) // delete head
                 {
-                    var newHead = _head.Next;
-                    newHead.Previous = null;
-                    _head.Next = null;
+                    var newHead = _head.Right;
+                    newHead.Left = null;
+                    _head.Right = null;
                     _head = newHead;
                     return true;
                 }
 
                 if (next == null) // delete last
                 {
-                    var newLast = nodeForDelete.Previous;
-                    newLast.Next = null;
-                    nodeForDelete.Previous = null;
+                    var newLast = nodeForDelete.Left;
+                    newLast.Right = null;
+                    nodeForDelete.Left = null;
                     return true;
                 }
 
-                previous.Next = next;
-                next.Previous = previous;
+                previous.Right = next;
+                next.Left = previous;
                 return true;
             }
         }
@@ -126,7 +126,7 @@ namespace DataStructures
             if (Equals(node.Value, value))
                 return node;
 
-            return Find(node.Next, value);
+            return Find(node.Right, value);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -135,7 +135,7 @@ namespace DataStructures
             while (node != null)
             {
                 yield return node.Value;
-                node = node.Next;
+                node = node.Right;
             }
         }
 

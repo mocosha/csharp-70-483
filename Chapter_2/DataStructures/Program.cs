@@ -13,11 +13,36 @@ namespace DataStructures
         {
             //StackUsageSample();
 
-            DoubleLinkedListUsageSample();
+            //DoubleLinkedListUsageSample();
 
             //SetUsageSample();
 
+            BinaryTreeUsage();
+
             Console.ReadLine();
+        }
+
+        private static void BinaryTreeUsage()
+        {
+            var tree = new NumberBinaryTree();
+
+            Console.WriteLine($"Tree is empty: {tree.IsEmpty()}");
+
+            tree.InsertNode(23);
+            tree.InsertNode(17);
+            tree.InsertNode(5);
+            tree.InsertNode(55);
+            tree.InsertNode(65);
+            tree.InsertNode(44);
+            tree.InsertNode(37);
+
+            Console.WriteLine($"Tree is empty: {tree.IsEmpty()}");
+
+            var n = tree.FindNode(44);
+            Console.WriteLine($"Search for 44; found node: {n.GetHashCode()}");
+
+            Console.WriteLine($"Ordered: {string.Join(",", tree.GetOrdered().ToArray())}" );
+            Console.WriteLine($"Reverse: {string.Join(",", tree.GetOrderedReverse().ToArray())}");
         }
 
         static void StackUsageSample()
