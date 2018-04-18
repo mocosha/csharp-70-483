@@ -15,44 +15,59 @@ namespace DesignPatterns
             return $"Reservation #{ConfirmationNumber} at {PickupDateTime}\n\tPickup: {Pickup}\n\tDropoff: {DropOff}\n\tPax: {Pax}";
         }
     }
-
+    /// <summary>
+    /// References: 
+    ///     - http://www.stefanoricciardi.com/2010/04/14/a-fluent-builder-in-c/
+    ///     - https://en.wikipedia.org/wiki/Fluent_interface
+    /// </summary>
     public class ReservationBuilder
     {
-        private Reservation _reservation = new Reservation();
-        
-        public ReservationBuilder CreateNew(string confirmationNumber)
+        private string _confirmationNumber;
+        private DateTime _pickupDateTime;
+        private string _pickup;
+        private string _dropOff;
+        private string _pax;
+
+        public ReservationBuilder WithConfirmationNumber(string confirmationNumber)
         {
-            _reservation.ConfirmationNumber = confirmationNumber;
+            _confirmationNumber = confirmationNumber;
             return this;
         }
 
         public ReservationBuilder WithPickupDateTime(DateTime pickupDateTime)
         {
-            _reservation.PickupDateTime = pickupDateTime;
+            _pickupDateTime = pickupDateTime;
             return this;
         }
 
         public ReservationBuilder WithPickup(string pickup)
         {
-            _reservation.Pickup = pickup;
+            _pickup = pickup;
             return this;
         }
 
         public ReservationBuilder WithDropoff(string dropoff)
         {
-            _reservation.DropOff = dropoff;
+            _dropOff = dropoff;
             return this;
         }
 
         public ReservationBuilder WithPax(string pax)
         {
-            _reservation.Pax = pax;
+            _pax = pax;
             return this;
         }
 
         public static implicit operator Reservation(ReservationBuilder rb)
         {
-            return rb._reservation;
+            return new Reservation
+            {
+                ConfirmationNumber = rb._confirmationNumber,
+                PickupDateTime = rb._pickupDateTime,
+                Pickup = rb._pickup,
+                DropOff = rb._dropOff,
+                Pax = rb._pax
+            };
         }
 
     }

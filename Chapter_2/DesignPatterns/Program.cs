@@ -17,7 +17,7 @@ namespace DesignPatterns
         {
             ReservationBuilder rb = new ReservationBuilder();
 
-            Reservation reservation = rb.CreateNew("17001212")
+            Reservation reservation = rb.WithConfirmationNumber("17001212")
                 .WithPickupDateTime(DateTime.Now.AddDays(2))
                 .WithPickup("Milutina Milankovica 22")
                 .WithDropoff("Jurija Gagarina 12")
