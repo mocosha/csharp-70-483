@@ -8,6 +8,17 @@ namespace DesignPatterns
 {
     class Program
     {
+        static void VisitorSample()
+        {
+            Offer e = new Offer();
+            e.AddCar(new Sedan());
+            e.AddCar(new Van() { BaseRate = 20 });
+            e.AddCar(new Suv());
+
+            var visitor = new RateEngineVisitor();
+            e.Accept(visitor);
+        }
+
         static void SingletonSample()
         {
             Singleton.Instance.Log("Singeton sample method started");
@@ -31,7 +42,9 @@ namespace DesignPatterns
             //SingletonSample();
             //Singleton.Instance.Log("test entry");;
 
-            FluentInterfaceSample();
+            //FluentInterfaceSample();
+
+            VisitorSample();
 
             Console.ReadLine();
         }
