@@ -12,14 +12,19 @@ namespace DesignPatterns
     /// http://www.dofactory.com/net/design-patterns    
     /// https://stackoverflow.com/questions/23321669/abstract-tree-with-visitors
     /// </summary>
-    public abstract class CarType
+    public abstract class DocumentPart
     {
-        public double Price { get; set; }
+        public DocumentPart()
+        {
+            Parts = new List<DocumentPart>();
+        }
+        public string Text { get; set; }
+        public List<DocumentPart> Parts { get; set; }
+
         public abstract void Accept(IVisitor visitor);
-
     }
 
-    public class Sedan : CarType
+    public class PlainText : DocumentPart
     {
         public override void Accept(IVisitor visitor)
         {
@@ -27,7 +32,7 @@ namespace DesignPatterns
         }
     }
 
-    public class Suv : CarType
+    public class BoldText : DocumentPart
     {
         public override void Accept(IVisitor visitor)
         {
@@ -35,9 +40,9 @@ namespace DesignPatterns
         }
     }
 
-    public class Van : CarType
+    public class Hyperlink : DocumentPart
     {
-        public double BaseRate { get; set; }
+        public string Url { get; set; }
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
@@ -46,55 +51,61 @@ namespace DesignPatterns
 
     public interface IVisitor
     {
-        void Visit(Sedan element);
-        void Visit(Suv element);
-        void Visit(Van element);
+        void Visit(PlainText element);
+        void Visit(BoldText element);
+        void Visit(Hyperlink element);
     }
 
-    public class RateEngineVisitor : IVisitor
+    public class HtmlVisitor : IVisitor
     {
-        public void Visit(Sedan sedan)
+        public string Output { get; set; }
+
+        public void Visit(PlainText sedan)
         {
-            var priceFromRateEngine = 15; //call rate engine to get price
-            sedan.Price = priceFromRateEngine;
-            Console.WriteLine("Sedan visited. Price: {0}'", sedan.Price);
+            Output += sedan.Text;
+            VisitParts(sedan.Parts);
         }
 
-        public void Visit(Suv suv)
+        private void VisitParts(List<DocumentPart> parts)
         {
-            var priceFromRateEngine = 25; //call rate engine to get price
-            suv.Price = priceFromRateEngine;
-            Console.WriteLine("Suv visited. Price: {0}", suv.Price);
+            foreach (var item in parts)
+            {
+                item.Accept(this);
+            }
         }
 
-        public void Visit(Van van)
+        public void Visit(BoldText boldText)
         {
-            var priceFromRateEngine = 25; //call rate engine to get price
-            van.Price = van.BaseRate + priceFromRateEngine;
+            Output += "<b>" + boldText.Text + "</b>"; ;
+            VisitParts(boldText.Parts);
+        }
 
-            Console.WriteLine("Van visited. Price: {0}", van.Price);
+        public void Visit(Hyperlink link)
+        {
+            Output += "<a href=\"" + link.Url + "\">" + link.Text + "</a>"; ;
+            VisitParts(link.Parts);
         }
     }
 
-    public class Offer
+    public class Document
     {
-        private List<CarType> _carTypes = new List<CarType>();
+        private List<DocumentPart> _parts = new List<DocumentPart>();
 
-        public void AddCar(CarType carType)
+        public void AddCar(DocumentPart docPart)
         {
-            _carTypes.Add(carType);
+            _parts.Add(docPart);
         }
 
-        public void Detach(CarType carType)
+        public void Detach(DocumentPart docPart)
         {
-            _carTypes.Remove(carType);
+            _parts.Remove(docPart);
         }
 
         public void Accept(IVisitor visitor)
         {
-            foreach (CarType ct in _carTypes)
+            foreach (DocumentPart dp in _parts)
             {
-                ct.Accept(visitor);
+                dp.Accept(visitor);
             }
         }
     }

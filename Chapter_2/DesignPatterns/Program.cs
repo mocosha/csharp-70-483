@@ -10,13 +10,21 @@ namespace DesignPatterns
     {
         static void VisitorSample()
         {
-            Offer e = new Offer();
-            e.AddCar(new Sedan());
-            e.AddCar(new Van() { BaseRate = 20 });
-            e.AddCar(new Suv());
+            Document doc = new Document();
+            var plainText = new PlainText();
+            plainText.Text = "Header";
+            plainText.Parts = new List<DocumentPart>
+            {
+                new Hyperlink{Text = "link test", Url = "www.test.com"},
+                new BoldText { Text = "bold test"}
+            };
 
-            var visitor = new RateEngineVisitor();
-            e.Accept(visitor);
+            doc.AddCar(plainText);
+            doc.AddCar(new BoldText { Text = "bojan" });
+
+            HtmlVisitor visitor = new HtmlVisitor();
+            doc.Accept(visitor);
+            Console.WriteLine("Html:\n" + visitor.Output);
         }
 
         static void SingletonSample()
@@ -47,6 +55,46 @@ namespace DesignPatterns
             VisitorSample();
 
             Console.ReadLine();
+        }
+    }
+
+    public class SpaceShip
+    {
+        public virtual string GetShipType()
+        {
+            return "SpaceShip";
+        }
+    }
+
+    public class ApolloSpacecraft : SpaceShip
+    {
+        public override string GetShipType()
+        {
+            return "ApolloSpacecraft";
+        }
+    }
+
+    public class Asteroid
+    {
+        public virtual void CollideWith(SpaceShip ship)
+        {
+            Console.WriteLine("Asteroid hit a SpaceShip");
+        }
+        public virtual void CollideWith(ApolloSpacecraft ship)
+        {
+            Console.WriteLine("Asteroid hit an ApolloSpacecraft");
+        }
+    }
+
+    public class ExplodingAsteroid : Asteroid
+    {
+        public override void CollideWith(SpaceShip ship)
+        {
+            Console.WriteLine("ExplodingAsteroid hit a SpaceShip");
+        }
+        public override void CollideWith(ApolloSpacecraft ship)
+        {
+            Console.WriteLine("ExplodingAsteroid hit an ApolloSpacecraft");
         }
     }
 }
