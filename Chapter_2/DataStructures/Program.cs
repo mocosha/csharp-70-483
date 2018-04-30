@@ -13,11 +13,11 @@ namespace DataStructures
         {
             //StackUsageSample();
 
-            //DoubleLinkedListUsageSample();
+           // DoubleLinkedListUsageSample();
 
             //SetUsageSample();
 
-            BinaryTreeUsage();
+           BinaryTreeUsage();
 
             Console.ReadLine();
         }
@@ -42,6 +42,7 @@ namespace DataStructures
             Console.WriteLine($"Search for 44; found node: {n.GetHashCode()}");
 
             Console.WriteLine($"Ordered: {string.Join(",", tree.GetOrdered().ToArray())}" );
+            Console.WriteLine($"OrderedV2: {string.Join(",", tree.GetOrderedV2().ToArray())}");
             Console.WriteLine($"Reverse: {string.Join(",", tree.GetOrderedReverse().ToArray())}");
         }
 

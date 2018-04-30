@@ -27,6 +27,10 @@ namespace DataStructures
             return list;
         }
 
+        public IEnumerable<int> GetOrderedV2()
+        {
+            return AddLeftNodeFirstV2(_root);
+        }
         public IEnumerable<int> GetOrderedReverse()
         {
             List<int> list = new List<int>();
@@ -48,6 +52,23 @@ namespace DataStructures
             if (node.Right != null)
             {
                 AddLeftNodeFirst(node.Right, list);
+            }
+        }
+
+        private IEnumerable<int> AddLeftNodeFirstV2(Node<int> node)
+        {
+            if (node.Left != null)
+            {
+                foreach (var x in AddLeftNodeFirstV2(node.Left))
+                    yield return x;
+            }
+
+            yield return node.Value;
+
+            if (node.Right != null)
+            {
+                foreach (var x in AddLeftNodeFirstV2(node.Right))
+                    yield return  x;
             }
         }
 
