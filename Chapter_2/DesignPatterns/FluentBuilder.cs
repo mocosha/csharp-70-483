@@ -9,6 +9,8 @@ namespace DesignPatterns
         public string Pickup { get; set; }
         public string DropOff { get; set; }
         public string Pax { get; set; }
+        public double Price { set; get; }
+        public string Car { set; get; }
 
         public override string ToString()
         {
