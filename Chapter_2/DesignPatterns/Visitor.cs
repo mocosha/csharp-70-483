@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DesignPatterns
 {
@@ -34,6 +31,7 @@ namespace DesignPatterns
 
     public class BoldText : DocumentPart
     {
+        public string Name { get; set; }
         public override void Accept(IVisitor visitor)
         {
             visitor.Visit(this);
@@ -58,12 +56,32 @@ namespace DesignPatterns
 
     public class HtmlVisitor : IVisitor
     {
-        public string Output { get; set; }
+        public string Output => _output.ToString();
+
+        private StringBuilder _output = new StringBuilder();
 
         public void Visit(PlainText sedan)
         {
-            Output += sedan.Text;
+            //var children = VisitParts(sedan.Parts);
+            //return $"<p>{sedan.Text}{children}</p>";
+
+            _output.Append($"<p>{sedan.Text}\n");
             VisitParts(sedan.Parts);
+            _output.Append($"</p>\n");
+        }
+
+        public void Visit(BoldText boldText)
+        {
+            _output.Append($"<b name=\"{boldText.Name}\">\n{boldText.Text}\n");
+            VisitParts(boldText.Parts);
+            _output.Append("</b>\n");
+        }
+
+        public void Visit(Hyperlink link)
+        {
+            _output.Append($"<a href=\"{link.Url}\">\n{link.Text}\n");
+            VisitParts(link.Parts);
+            _output.Append("</a>\n");
         }
 
         private void VisitParts(List<DocumentPart> parts)
@@ -73,25 +91,13 @@ namespace DesignPatterns
                 item.Accept(this);
             }
         }
-
-        public void Visit(BoldText boldText)
-        {
-            Output += "<b>" + boldText.Text + "</b>"; ;
-            VisitParts(boldText.Parts);
-        }
-
-        public void Visit(Hyperlink link)
-        {
-            Output += "<a href=\"" + link.Url + "\">" + link.Text + "</a>"; ;
-            VisitParts(link.Parts);
-        }
     }
 
     public class Document
     {
         private List<DocumentPart> _parts = new List<DocumentPart>();
 
-        public void AddCar(DocumentPart docPart)
+        public void AddDocument(DocumentPart docPart)
         {
             _parts.Add(docPart);
         }

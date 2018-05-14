@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static DesignPatterns.CORAndSpecification;
 
 namespace DesignPatterns
@@ -12,16 +9,32 @@ namespace DesignPatterns
         static void VisitorSample()
         {
             Document doc = new Document();
-            var plainText = new PlainText();
-            plainText.Text = "Header";
-            plainText.Parts = new List<DocumentPart>
+            var boldText = new BoldText
             {
-                new Hyperlink{Text = "link test", Url = "www.test.com"},
-                new BoldText { Text = "bold test"}
+                Name= "foo name",
+                Text = "Foo",
+                Parts = new List<DocumentPart>
+                {
+                    new Hyperlink
+                    {
+                        Text = "link test",
+                        Url = "www.test.com"
+                    },
+                }
             };
 
-            doc.AddCar(plainText);
-            doc.AddCar(new BoldText { Text = "bojan" });
+            var plainText = new PlainText
+            {
+                Text = "Header",
+                Parts = new List<DocumentPart>
+                {
+                    new Hyperlink { Text = "link test", Url = "www.test.com"},
+                    boldText
+                }
+            };
+
+            doc.AddDocument(plainText);
+            doc.AddDocument(new BoldText { Text = "bojan" });
 
             HtmlVisitor visitor = new HtmlVisitor();
             doc.Accept(visitor);
@@ -84,8 +97,9 @@ namespace DesignPatterns
 
             var basicDispatcherCenter = new BasicDispatcherCenter();
             basicDispatcherCenter.SetSpecification(
-                lowBidget.Or(compactCar)
-                .Or(lowBidget.And(midSizeCar))
+                lowBidget
+                    .Or(compactCar)
+                    .Or(lowBidget.And(midSizeCar))
             );
 
             var midDispatcherCenter = new MidDispatcherCenter();
@@ -113,53 +127,11 @@ namespace DesignPatterns
 
             //FluentInterfaceSample();
 
-            // VisitorSample();
+            VisitorSample();
 
-            CORSample();
+            //CORSample();
 
             Console.ReadLine();
         }
     }
-
-    public class SpaceShip
-    {
-        public virtual string GetShipType()
-        {
-            return "SpaceShip";
-        }
-    }
-
-    public class ApolloSpacecraft : SpaceShip
-    {
-        public override string GetShipType()
-        {
-            return "ApolloSpacecraft";
-        }
-    }
-
-    public class Asteroid
-    {
-        public virtual void CollideWith(SpaceShip ship)
-        {
-            Console.WriteLine("Asteroid hit a SpaceShip");
-        }
-        public virtual void CollideWith(ApolloSpacecraft ship)
-        {
-            Console.WriteLine("Asteroid hit an ApolloSpacecraft");
-        }
-    }
-
-    public class ExplodingAsteroid : Asteroid
-    {
-        public override void CollideWith(SpaceShip ship)
-        {
-            Console.WriteLine("ExplodingAsteroid hit a SpaceShip");
-        }
-        public override void CollideWith(ApolloSpacecraft ship)
-        {
-            Console.WriteLine("ExplodingAsteroid hit an ApolloSpacecraft");
-        }
-    }
-
-
 }

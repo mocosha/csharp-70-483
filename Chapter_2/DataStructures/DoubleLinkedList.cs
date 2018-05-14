@@ -94,7 +94,6 @@ namespace DataStructures
                     return true;
                 }
 
-
                 if (previous == null) // delete head
                 {
                     var newHead = _head.Right;
