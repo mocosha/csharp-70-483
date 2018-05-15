@@ -118,6 +118,34 @@ namespace DesignPatterns
             reservations.ForEach((r) => { basicDispatcherCenter.HandleRequest(r); });
         }
 
+        static void DecoratorSample()
+        {
+            Console.WriteLine($"Sedan");
+            CarType sedan = new Sedan();
+            Console.WriteLine($"\tSedan price: {sedan.GetPrice()}");
+            Console.WriteLine($"\tMax pax: {sedan.MaxPassengers()}");
+
+            sedan = new DoublePrice(sedan);
+            Console.WriteLine($"\tDouble price: {sedan.GetPrice()}");
+
+            sedan = new IncreasePassenger(sedan);
+            Console.WriteLine($"\tMax passengers after increase: {sedan.MaxPassengers()}");
+
+            Console.WriteLine(new string('-', 30));
+
+            Console.WriteLine($"SUV");
+
+            CarType suv = new SUV();
+            Console.WriteLine($"\tPrice: {suv.GetPrice()}");
+            Console.WriteLine($"\tMax passengers: {suv.MaxPassengers()}");
+
+            suv = new DoublePrice(suv);
+            Console.WriteLine($"\tDouble price: {suv.GetPrice()}");
+
+            suv = new IncreasePassenger(suv);
+            Console.WriteLine($"\tMax passengers after increase: {suv.MaxPassengers()}");
+        }
+
         static void Main(string[] args)
         {
             //SingletonSample();
@@ -125,7 +153,8 @@ namespace DesignPatterns
 
             //FluentInterfaceSample();
 
-            VisitorSample();
+            //VisitorSample();
+            DecoratorSample();
 
             //CORSample();
 
