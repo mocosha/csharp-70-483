@@ -12,7 +12,6 @@ namespace DesignPatterns
             var boldText = new BoldText
             {
                 Name= "foo name",
-                Text = "Foo",
                 Parts = new List<DocumentPart>
                 {
                     new Hyperlink
@@ -23,9 +22,8 @@ namespace DesignPatterns
                 }
             };
 
-            var plainText = new PlainText
+            var plainText = new Paragraph
             {
-                Text = "Header",
                 Parts = new List<DocumentPart>
                 {
                     new Hyperlink { Text = "link test", Url = "www.test.com"},

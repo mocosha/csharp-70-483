@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CORAndSpecification.cs" />
+    <Compile Include="Decorator.cs" />
     <Compile Include="FluentBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

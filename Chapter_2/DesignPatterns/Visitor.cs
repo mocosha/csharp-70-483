@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace DesignPatterns
@@ -19,9 +20,10 @@ namespace DesignPatterns
         public List<DocumentPart> Parts { get; set; }
 
         public abstract void Accept(IVisitor visitor);
+        public bool HasChildren => Parts.Count > 0;
     }
 
-    public class PlainText : DocumentPart
+    public class Paragraph : DocumentPart
     {
         public override void Accept(IVisitor visitor)
         {
@@ -49,7 +51,7 @@ namespace DesignPatterns
 
     public interface IVisitor
     {
-        void Visit(PlainText element);
+        void Visit(Paragraph element);
         void Visit(BoldText element);
         void Visit(Hyperlink element);
     }
@@ -60,28 +62,61 @@ namespace DesignPatterns
 
         private StringBuilder _output = new StringBuilder();
 
-        public void Visit(PlainText sedan)
+        int tabCounter = 1;
+        Func<int, string> GetTab = counter => new string('\t', counter);
+        readonly Dictionary<int, string> tabHelper = new Dictionary<int, string>
+        {
+            { 1, "\t" },
+            { 2, "\t\t"},
+            { 3, "\t\t\t"},
+            { 4, "\t\t\t\t"}
+        };
+
+        public void Visit(Paragraph paragraph)
         {
             //var children = VisitParts(sedan.Parts);
             //return $"<p>{sedan.Text}{children}</p>";
 
-            _output.Append($"<p>{sedan.Text}\n");
-            VisitParts(sedan.Parts);
-            _output.Append($"</p>\n");
+            var ret = paragraph.HasChildren ? "\n" : "";
+            _output.Append($"{tabHelper[tabCounter]}<p>{paragraph.Text}{ret}");
+            tabCounter++;
+            VisitParts(paragraph.Parts);
+            tabCounter--;
+
+            if (paragraph.HasChildren)
+                _output.Append($"{tabHelper[tabCounter]}</p>\n");
+            else
+                _output.Append($"</p>\n");
+
         }
 
         public void Visit(BoldText boldText)
         {
-            _output.Append($"<b name=\"{boldText.Name}\">\n{boldText.Text}\n");
+            var ret = boldText.HasChildren ? "\n" : "";
+            _output.Append($"{tabHelper[tabCounter]}<b name=\"{boldText.Name}\">{boldText.Text}{ret}");
+            tabCounter++;
             VisitParts(boldText.Parts);
-            _output.Append("</b>\n");
+            tabCounter--;
+
+            if (boldText.HasChildren)
+                _output.Append($"{tabHelper[tabCounter]}</b>\n");
+            else
+                _output.Append($"</b>\n");
+
         }
 
         public void Visit(Hyperlink link)
         {
-            _output.Append($"<a href=\"{link.Url}\">\n{link.Text}\n");
+            var ret = link.HasChildren ? "\n" : "";
+            _output.Append($"{tabHelper[tabCounter]}<a href=\"{link.Url}\">{link.Text}{ret}");
+            tabCounter++;
             VisitParts(link.Parts);
-            _output.Append("</a>\n");
+            tabCounter--;
+            
+            if (link.HasChildren)
+                _output.Append($"{tabHelper[tabCounter]}</a>\n");
+            else
+                _output.Append($"</a>\n");
         }
 
         private void VisitParts(List<DocumentPart> parts)
