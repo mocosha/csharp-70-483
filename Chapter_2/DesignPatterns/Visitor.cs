@@ -64,13 +64,6 @@ namespace DesignPatterns
 
         int tabCounter = 1;
         Func<int, string> GetTab = counter => new string('\t', counter);
-        readonly Dictionary<int, string> tabHelper = new Dictionary<int, string>
-        {
-            { 1, "\t" },
-            { 2, "\t\t"},
-            { 3, "\t\t\t"},
-            { 4, "\t\t\t\t"}
-        };
 
         public void Visit(Paragraph paragraph)
         {
@@ -78,13 +71,14 @@ namespace DesignPatterns
             //return $"<p>{sedan.Text}{children}</p>";
 
             var ret = paragraph.HasChildren ? "\n" : "";
-            _output.Append($"{tabHelper[tabCounter]}<p>{paragraph.Text}{ret}");
+            
+            _output.Append($"{GetTab(tabCounter)}<p>{paragraph.Text}{ret}");
             tabCounter++;
             VisitParts(paragraph.Parts);
             tabCounter--;
 
             if (paragraph.HasChildren)
-                _output.Append($"{tabHelper[tabCounter]}</p>\n");
+                _output.Append($"{GetTab(tabCounter)}</p>\n");
             else
                 _output.Append($"</p>\n");
 
@@ -93,13 +87,13 @@ namespace DesignPatterns
         public void Visit(BoldText boldText)
         {
             var ret = boldText.HasChildren ? "\n" : "";
-            _output.Append($"{tabHelper[tabCounter]}<b name=\"{boldText.Name}\">{boldText.Text}{ret}");
+            _output.Append($"{GetTab(tabCounter)}<b name=\"{boldText.Name}\">{boldText.Text}{ret}");
             tabCounter++;
             VisitParts(boldText.Parts);
             tabCounter--;
 
             if (boldText.HasChildren)
-                _output.Append($"{tabHelper[tabCounter]}</b>\n");
+                _output.Append($"{GetTab(tabCounter)}</b>\n");
             else
                 _output.Append($"</b>\n");
 
@@ -108,13 +102,13 @@ namespace DesignPatterns
         public void Visit(Hyperlink link)
         {
             var ret = link.HasChildren ? "\n" : "";
-            _output.Append($"{tabHelper[tabCounter]}<a href=\"{link.Url}\">{link.Text}{ret}");
+            _output.Append($"{GetTab(tabCounter)}<a href=\"{link.Url}\">{link.Text}{ret}");
             tabCounter++;
             VisitParts(link.Parts);
             tabCounter--;
             
             if (link.HasChildren)
-                _output.Append($"{tabHelper[tabCounter]}</a>\n");
+                _output.Append($"{GetTab(tabCounter)}</a>\n");
             else
                 _output.Append($"</a>\n");
         }
