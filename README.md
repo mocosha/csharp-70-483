@@ -40,3 +40,10 @@
   - Strings
   - Reflection
   - Solve "if (Result.Status != Success)..." in our codebase
+  
+## 3. Debug applications and implement security
+- 3.1: Validate application input
+- 3.2: Perform symmetric and asymmetric encryption
+- 3.3: Manage assemblies
+- 3.4: Debug an application
+- 3.5. Implement diagnostics in an application
