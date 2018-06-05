@@ -22,7 +22,7 @@
 - 2.6: Manage the object life cycle
 - 2.7: Manipulate strings
 
-### Exercises (ideas):
+### Exercises:
 - Implement data structure using generics:
   - Binary tree
   - Double linked list
@@ -33,12 +33,9 @@
   - Fluent Builder
   - Chain of Responsibility
   - Decorator
-  - State pattern
   - Visitor pattern
 
 - Other:
-  - Strings
-  - Reflection
   - Solve "if (Result.Status != Success)..." in our codebase
   
 ## 3. Debug applications and implement security
@@ -47,3 +44,27 @@
 - 3.3: Manage assemblies
 - 3.4: Debug an application
 - 3.5. Implement diagnostics in an application
+
+### Exercises (ideas):
+- Performance counters (Bojan / Milos)
+
+- Chat app (Milos)
+  - Certificate
+  - Powershall
+  - Create
+  - Read from store
+  - Encript / decript 
+  - Digital Signing
+  
+- Regex (Simple console applications) 
+  - Match string with pattern
+  - Search and replace in files
+
+- Assemblies 
+  - Create tool for read assembly info (version...)
+  - Signing dll and put in GAC
+  
+- Other
+  - Reflection
+  - Strings (Interning)
+
