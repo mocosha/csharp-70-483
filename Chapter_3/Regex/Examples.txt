@@ -1,0 +1,21 @@
+﻿Character & Anchor
+	Character group - "gray" "[aey]"
+	Character group negation "gray" "[^ae]" 
+	Character range "AB123" "[A-Z]"
+	Wildcard "nave" "a.e"
+	Word character "Bojan 12.23!" "\w"
+	Non Word character "Bojan 12.23!" "\W"
+
+Quantifier
+	"beeeeen" "be*" 
+	"beeeeen" "be+" 
+	"beeeeen" "be?" 
+
+	"9,876,543,210" ",\d{3}"
+
+	"901-333-901-323" "^\d{3}"
+
+	"333" "^\d{3}$"
+
+Groups
+"Left12345Right" "Left(?<middle>\d+)Right"
