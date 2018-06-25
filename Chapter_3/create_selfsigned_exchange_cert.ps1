@@ -1,0 +1,3 @@
+$cert = New-SelfSignedCertificate -certstorelocation cert:\CurrentUser\my -KeySpec "KeyExchange" -KeyUsage "DataEncipherment" -Subject "Document encryption test" -FriendlyName "Document encryption test" -NotAfter $([datetime]::now.AddYears(5))
+$pwd = ConvertTo-SecureString -String passw0rd! -Force -AsPlainText
+Export-PfxCertificate -Cert $cert -FilePath Cryptography\self_signed_exchange.pfx -Password $pwd

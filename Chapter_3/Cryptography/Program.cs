@@ -72,7 +72,7 @@ namespace Cryptography
             return status.ToString();
         }
 
-        static void Main(string[] args)
+        static void SigningSample()
         {
             var certificate = new Certificate();
             certificate.InitializeFromFile("self_signed_cert.pfx", "passw0rd!");
@@ -83,6 +83,34 @@ namespace Cryptography
 
             var verifyingResult = VerifyXmlSignature("signed.xml");
             Console.WriteLine(verifyingResult);
+        }
+
+        static void EncryptDecryptSample()
+        {
+            var certificate = new Certificate();
+            certificate.InitializeFromFile("self_signed_exchange.pfx", "passw0rd!");
+
+            // Encrypt / Decrypt
+            var message = "secret message";
+            Console.WriteLine($"Original message: {message}");
+            Console.WriteLine();
+
+            var cryptedMessage = certificate.CryptoServiceProvider.Encrypt(Encoding.ASCII.GetBytes(message), fOAEP: true);
+            var cryptedMessageAsString = Encoding.Default.GetString(cryptedMessage);
+            Console.WriteLine($"Crypted mesage: {cryptedMessageAsString}");
+            Console.WriteLine();
+
+            var decryptedMessage = certificate.CryptoServiceProvider.Decrypt(cryptedMessage, true);
+            var decryptedMessageAsString = Encoding.Default.GetString(decryptedMessage);
+            Console.WriteLine($"Decrypted mesage: {decryptedMessageAsString}");
+        }
+
+        static void Main(string[] args)
+        {
+            //SigningSample();
+
+            EncryptDecryptSample();
+
 
             Console.ReadKey();
         }
