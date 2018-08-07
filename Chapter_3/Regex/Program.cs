@@ -29,7 +29,7 @@ namespace Chapter_3
             }
             else
             {
-                Console.WriteLine($"No match value");
+                Console.WriteLine("No match value");
             }
         }
 
@@ -41,6 +41,13 @@ namespace Chapter_3
 
             var regex = new Regex(pattern);
             var matches = regex.Matches(input);
+
+            if (matches.Count ==0)
+            {
+                Console.WriteLine("No match values");
+                return;
+            }
+
             foreach (Match match in matches)
             {
                 Console.WriteLine($"Matched value: {match.Value}");

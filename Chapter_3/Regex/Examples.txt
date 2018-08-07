@@ -7,15 +7,26 @@
 	Non Word character "Bojan 12.23!" "\W"
 
 Quantifier
+* - zero or more times
++ - one or more times
+? - zero or one time
+
 	"beeeeen" "be*" 
 	"beeeeen" "be+" 
 	"beeeeen" "be?" 
 
+	"at", "hat", and "cat" -> [hc]?at 
+	"at", "hat", "cat", "hhat", "chat", "hcat", "cchchat", -> [hc]*at 
+    "hat", "cat", "hhat", "chat", "hcat", "cchchat", and so on, but not "at" -> [hc]+at
+
 	"9,876,543,210" ",\d{3}"
-
 	"901-333-901-323" "^\d{3}"
-
 	"333" "^\d{3}$"
 
 Groups
 "Left12345Right" "Left(?<middle>\d+)Right"
+
+Example:
+"1234AB" "^[1-9][0-9]{3}\s?[a-zA-Z]{2}$"
+"A1234AB" "^[1-9][0-9]{3}\s?[a-zA-Z]{2}$"
+Dutch ZIP Codes: ^[1-9][0-9]{3}\s?[a-zA-Z]{2}$

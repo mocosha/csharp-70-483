@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography", "Cryptograph
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalSignatureLibrary", "DigitalSignatureLibrary\DigitalSignatureLibrary.csproj", "{E9F1C327-FA75-4C57-B5A1-BF903BE8F718}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCounters", "PerformanceCounters\PerformanceCounters.csproj", "{75C70549-0071-42D5-B102-808D7BE57007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E9F1C327-FA75-4C57-B5A1-BF903BE8F718}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9F1C327-FA75-4C57-B5A1-BF903BE8F718}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9F1C327-FA75-4C57-B5A1-BF903BE8F718}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75C70549-0071-42D5-B102-808D7BE57007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75C70549-0071-42D5-B102-808D7BE57007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75C70549-0071-42D5-B102-808D7BE57007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75C70549-0071-42D5-B102-808D7BE57007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
