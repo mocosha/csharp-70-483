@@ -17,7 +17,7 @@ namespace Chapter_3
 
             var regex = new Regex(pattern);
             Match match = regex.Match(input);
-            
+
             if (match.Success)
             {
                 Console.WriteLine($"Matched value: {match.Value}");
@@ -42,7 +42,7 @@ namespace Chapter_3
             var regex = new Regex(pattern);
             var matches = regex.Matches(input);
 
-            if (matches.Count ==0)
+            if (matches.Count == 0)
             {
                 Console.WriteLine("No match values");
                 return;
@@ -81,9 +81,9 @@ namespace Chapter_3
             {
                 replacement = args[2];
             }
-            
+
             Matches(input, pattern);
-            
+
             var shouldReplace = !string.IsNullOrWhiteSpace(replacement);
             if (shouldReplace)
             {

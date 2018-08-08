@@ -20,19 +20,19 @@ public class Program
         ReadValuesOfPerformanceCounters(pc);
     }
 
-    private static PerformanceCounter GetPerformanceCounter(string type, string instance)
+    private static PerformanceCounter GetPerformanceCounter(string type, string instanceName)
     {
-        var isInstance = !string.IsNullOrWhiteSpace(instance);
+        var isInstance = !string.IsNullOrWhiteSpace(instanceName);
 
         if (isInstance)
         {
             if (string.Equals(type, CPU, StringComparison.OrdinalIgnoreCase))
             {
-                return new PerformanceCounter("Process", "% Processor Time", instance, true);
+                return new PerformanceCounter("Process", "% Processor Time", instanceName, true);
             }
             else if (string.Equals(type, MEMORY, StringComparison.OrdinalIgnoreCase))
             {
-                return new PerformanceCounter("Process", "Working Set - Private", instance, true);
+                return new PerformanceCounter("Process", "Working Set - Private", instanceName, true);
             }
             else
             {
@@ -76,14 +76,14 @@ public class Program
     {
         Console.WriteLine(new string('+', 10));
         Console.WriteLine("Sample values - \r\n");
-        Console.WriteLine("   BaseValue        = " + s.BaseValue);
-        Console.WriteLine("   CounterFrequency = " + s.CounterFrequency);
-        Console.WriteLine("   CounterTimeStamp = " + s.CounterTimeStamp);
-        Console.WriteLine("   CounterType      = " + s.CounterType);
-        Console.WriteLine("   RawValue         = " + s.RawValue);
-        Console.WriteLine("   SystemFrequency  = " + s.SystemFrequency);
-        Console.WriteLine("   TimeStamp        = " + s.TimeStamp);
-        Console.WriteLine("   TimeStamp100nSec = " + s.TimeStamp100nSec);
+        Console.WriteLine("\tBaseValue        = " + s.BaseValue);
+        Console.WriteLine("\tCounterFrequency = " + s.CounterFrequency);
+        Console.WriteLine("\tCounterTimeStamp = " + s.CounterTimeStamp);
+        Console.WriteLine("\tCounterType      = " + s.CounterType);
+        Console.WriteLine("\tRawValue         = " + s.RawValue);
+        Console.WriteLine("\tSystemFrequency  = " + s.SystemFrequency);
+        Console.WriteLine("\tTimeStamp        = " + s.TimeStamp);
+        Console.WriteLine("\tTimeStamp100nSec = " + s.TimeStamp100nSec);
         Console.WriteLine(new string('+', 10));
     }
 }
