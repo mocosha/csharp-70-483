@@ -2,11 +2,29 @@
 using System.Diagnostics;
 using System.Threading;
 
-public class Program
+class Type
 {
+    public Type(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentNullException(nameof(name));
+
+        _name = name;
+    }
+
+    public bool IsCpu =>
+        string.Equals(_name, CPU, StringComparison.OrdinalIgnoreCase);
+
+    public bool IsMemory =>
+        string.Equals(_name, MEMORY, StringComparison.OrdinalIgnoreCase);
+
+    private string _name;
     private readonly static string CPU = "cpu";
     private readonly static string MEMORY = "memory";
+}
 
+public class Program
+{
     public static void Main(string[] args)
     {
         var type = args[0];
@@ -16,22 +34,25 @@ public class Program
             instanceName = args[1];
         }
 
-        var pc = GetPerformanceCounter(type, instanceName);
-        ReadValuesOfPerformanceCounters(pc);
+        var counter = GetPerformanceCounter(type, instanceName);
+        ReadValuesOfPerformanceCounters(counter);
     }
 
     private static PerformanceCounter GetPerformanceCounter(string type, string instanceName)
     {
-        var isInstance = !string.IsNullOrWhiteSpace(instanceName);
+        var instanceNameExists = !string.IsNullOrWhiteSpace(instanceName);
+        var typeObj = new Type(type);
 
-        if (isInstance)
+        if (instanceNameExists)
         {
-            if (string.Equals(type, CPU, StringComparison.OrdinalIgnoreCase))
+            if (typeObj.IsCpu)
             {
                 return new PerformanceCounter("Process", "% Processor Time", instanceName, true);
             }
-            else if (string.Equals(type, MEMORY, StringComparison.OrdinalIgnoreCase))
+            else if (typeObj.IsMemory)
             {
+                //Working Set - Private
+                //amount of memory used by a process that cannot be shared among other processes
                 return new PerformanceCounter("Process", "Working Set - Private", instanceName, true);
             }
             else
@@ -41,11 +62,11 @@ public class Program
         }
         else
         {
-            if (string.Equals(type, CPU, StringComparison.OrdinalIgnoreCase))
+            if (typeObj.IsCpu)
             {
                 return new PerformanceCounter("Processor", "% Processor Time", "_Total");
             }
-            else if (string.Equals(type, MEMORY, StringComparison.OrdinalIgnoreCase))
+            else if (typeObj.IsMemory)
             {
                 return new PerformanceCounter("Memory", "Available MBytes");
             }
@@ -58,15 +79,14 @@ public class Program
 
     private static void ReadValuesOfPerformanceCounters(PerformanceCounter counter)
     {
-        Console.WriteLine("Category: {0}", counter.CategoryName);
-        Console.WriteLine("Instance: {0}", counter.InstanceName);
-        Console.WriteLine("Counter name: {0}", counter.CounterName);
+        Console.WriteLine($"Category: {counter.CategoryName}");
+        Console.WriteLine($"Instance: {counter.InstanceName}");
+        Console.WriteLine($"Counter name: {counter.CounterName}");
 
         Console.WriteLine(new string('-', 15));
         while (true)
         {
-            Console.WriteLine("Value: {0}", counter.NextValue());
-            //Console.WriteLine("Sample");
+            Console.WriteLine($"Value: {counter.NextValue()}");
             //OutputSample(counter.NextSample());
             Thread.Sleep(2000);
         }

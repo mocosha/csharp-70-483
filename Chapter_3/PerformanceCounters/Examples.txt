@@ -1,0 +1,7 @@
+﻿usage: pc [type] [instanceName]
+[type] - cpu | memory
+-----------------------------
+pc cpu
+pc memory
+pc cpu MyService2
+pc memory MyService2

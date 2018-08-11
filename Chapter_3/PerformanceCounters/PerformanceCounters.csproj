@@ -7,7 +7,7 @@
     <ProjectGuid>{75C70549-0071-42D5-B102-808D7BE57007}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>PerformanceCounters</RootNamespace>
-    <AssemblyName>PerformanceCounters</AssemblyName>
+    <AssemblyName>pc</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Examples.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
