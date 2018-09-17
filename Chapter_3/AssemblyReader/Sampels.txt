@@ -1,0 +1,6 @@
+﻿dotnet run --all C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+
+dotnet run --p C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+
+dotnet run --file C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+dotnet run --f C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe

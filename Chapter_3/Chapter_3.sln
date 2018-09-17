@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalSignatureLibrary", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceCounters", "PerformanceCounters\PerformanceCounters.csproj", "{75C70549-0071-42D5-B102-808D7BE57007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyReader", "AssemblyInfo\AssemblyReader.csproj", "{4A3DEFE2-00E6-4BD5-AEF5-A6292D020FD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyReader", "AssemblyReader\AssemblyReader.csproj", "{4A3DEFE2-00E6-4BD5-AEF5-A6292D020FD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
