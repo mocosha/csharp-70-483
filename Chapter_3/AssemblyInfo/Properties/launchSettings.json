@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "AssemblyReader": {
-      "commandName": "Project",
-      "commandLineArgs": "assembly C:\\Projects\\mocosha\\csharp-70-483\\Chapter_3\\Cryptography\\bin\\Debug\\Cryptography.exe"
-    }
-  }
-}

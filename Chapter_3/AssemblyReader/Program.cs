@@ -3,29 +3,31 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Security;
+/*
+TODO:
+    first param file path, second option with default (Company name, Assmbly version, File version) --all (+ product version...)
+
+    use library for parsing arguments
+    validate allowed arguments
+    validate file type (.exe and .dll)
+
+    target framework
+    company name
+
+    return error codes
+    branding
+
+    read assembly informations and put to dict
+ */
 
 namespace AssemblyReader
 {
     /// <summary>
-    /// https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly?view=netcore-2.1
+    /// read assembly - https://docs.microsoft.com/en-us/dotnet/api/system.reflection.assembly?view=netcore-2.1
+    /// global tool - https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-create
     /// </summary>
     class Program
     {
-        static void ShowUsage()
-        {
-            Console.WriteLine("Usage: version [options] [path]");
-
-            Console.WriteLine("Options:");
-            Console.WriteLine("\t --a | --assembly");
-            Console.WriteLine("\t --p | --product");
-            Console.WriteLine("\t --f | --file");
-            Console.WriteLine("\t --all");
-
-            Console.WriteLine("Path:");
-            Console.WriteLine("\t The path to the assembly");
-        }
-
-        const int MAX_PATH = 256;
         static void Main(string[] args)
         {
             if (args.Length != 2)
@@ -38,8 +40,6 @@ namespace AssemblyReader
 
             var assemblyPath = args[1];
 
-            //TODO: validation
-            //.exe and .dll
             if (string.IsNullOrWhiteSpace(assemblyPath))
             {
                 Console.WriteLine($"Assembly path is missing");
@@ -49,7 +49,8 @@ namespace AssemblyReader
             try
             {
                 var assembly = Assembly.LoadFrom(assemblyPath);
-                //TODO: check this methods
+
+                //TODO: check these methods
                 //var assembly = Assembly.LoadFile(assemblyPath);
 
                 //var an = AssemblyName.GetAssemblyName(assemblyPath);
@@ -60,6 +61,8 @@ namespace AssemblyReader
                     Console.WriteLine($"Max length for namespace exceeded max value of {Program.MAX_PATH}");
                     return;
                 }
+
+                Console.WriteLine($"Full name: {assembly.FullName}");
 
                 if (IsOptionAll(option) || IsOptionAssembly(option))
                 {
@@ -114,40 +117,46 @@ namespace AssemblyReader
 
             //    Console.WriteLine(ex.Message);
             //}
+        }
 
-            Console.ReadKey(true);
+        const int MAX_PATH = 256;
+
+        private static void ShowUsage()
+        {
+            Console.WriteLine("Usage: version [options] [path]");
+
+            Console.WriteLine("Options:");
+            Console.WriteLine("\t --a | --assembly");
+            Console.WriteLine("\t --p | --product");
+            Console.WriteLine("\t --f | --file");
+            Console.WriteLine("\t --all");
+
+            Console.WriteLine("Path:");
+            Console.WriteLine("\t The path to the assembly");
         }
 
         private static bool IsOptionAssembly(string option)
         {
             var values = new string[] { "--assembly", "--a" };
             return Array.Exists(values, v => v == option);
-
-            //return string.Equals(option, "--assembly", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsOptionProduct(string option)
         {
             var values = new string[] { "--product", "--p" };
             return Array.Exists(values, v => v == option);
-
-            //return string.Equals(option, "--product", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsOptionFile(string option)
         {
             var values = new string[] { "--file", "--f" };
             return Array.Exists(values, v => v == option);
-
-            //return string.Equals(option, "--file", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsOptionAll(string option)
         {
             var values = new string[] { "--all" };
             return Array.Exists(values, v => v == option);
-
-            //return string.Equals(option, "--all", StringComparison.OrdinalIgnoreCase);
         }
     }
 }
