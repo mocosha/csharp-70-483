@@ -1,6 +1,19 @@
-﻿dotnet run --all C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+﻿dotnet run C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+dotnet run C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe --all
+dotnet run C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe --p
+dotnet run C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe --file
+dotnet run C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe --f
 
-dotnet run --p C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+TODO:
+Check those methods
+var assembly = Assembly.LoadFile(assemblyPath);
+var an = AssemblyName.GetAssemblyName(assemblyPath);
+var assembly = Assembly.Load(an);
 
-dotnet run --file C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
-dotnet run --f C:\Projects\mocosha\csharp-70-483\Chapter_3\Cryptography\bin\Debug\Cryptography.exe
+use existing library for parsing arguments or parse it manually?
+validate allowed arguments
+
+validate file type (.exe and .dll)
+
+return error codes
+branding
