@@ -45,6 +45,10 @@
 - 3.4: Debug an application
 - 3.5. Implement diagnostics in an application
 
+## 4. Implement data access
+ - Create console app which will store and retrive some structure (Author, Title, Summary)
+ - LINQ provider for that structure - [custom linq provider](https://weblogs.asp.net/mehfuzh/writing-custom-linq-provider)
+
 ### Exercises (ideas):
 - Performance counters (Bojan / Milos)
 
