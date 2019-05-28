@@ -18,8 +18,8 @@ namespace Closure
         static void Main(string[] args)
         {
             Console.WriteLine("--CLOSURES--");
-            //FilterExample();
-            MessengerExample();
+            FilterExample();
+            //MessengerExample();
             Console.ReadLine();
         }
 
@@ -39,7 +39,7 @@ namespace Closure
             Console.WriteLine();
             Console.WriteLine("Delegate filter (<)");
 
-            //k++;
+            k++;
 
             Func<int, bool> filterFun = 
                 delegate(int i) 
