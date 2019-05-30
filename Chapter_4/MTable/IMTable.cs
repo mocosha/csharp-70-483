@@ -11,6 +11,6 @@ namespace MTable
         IEnumerable<T> GetAll();
 
         void Add(T value);
-        void Delete();
+        void Delete(Guid id);
     }
 }

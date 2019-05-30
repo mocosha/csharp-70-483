@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MTable
 {
-    public class MTable<T> : IMTable<T> where T : ISerializable 
+    public class MTable<T> : IMTable<T> where T : ISerializable
     {
         public T Get(Guid id)
         {
-            throw new NotImplementedException();
+            return GetAllRow()
+                .Where(r => r.Id == id && r.Metadata.IsDeleted == false)
+                .Select(r => r.Payload)
+                .FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        private IEnumerable<MRow<T>> GetAllRow()
         {
             using (BinaryReader reader = new BinaryReader(File.Open("data.bin", FileMode.Open)))
             {
@@ -23,9 +27,15 @@ namespace MTable
                     int bytesToRead = reader.ReadInt32();
                     byte[] v = reader.ReadBytes(bytesToRead);
                     MRow<T> value = FromByteArray(v);
-                    yield return value.Payload;
+                    yield return value;
                 }
             }
+        }
+        public IEnumerable<T> GetAll()
+        {
+            return GetAllRow()
+                .Where(i=>i.Metadata.IsDeleted == false)
+                .Select(r => r.Payload);
         }
 
         public IEnumerable<T> Find(Predicate<T> filter)
@@ -33,7 +43,7 @@ namespace MTable
             throw new NotImplementedException();
         }
 
-        public void Delete()
+        public void Delete(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -112,6 +122,6 @@ namespace MTable
             return src.GetType().GetProperty(propName).GetValue(src, null);
         }
 
-        
+
     }
 }
