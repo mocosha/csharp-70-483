@@ -1,10 +1,30 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MTable
 {
     class Program
     {
+        private static void PrintAll(IEnumerable<Book> books)
+        {
+            Console.WriteLine(new string('-', 10));
+            if (books.Any())
+            {
+                foreach (var book in books)
+                {
+                    Console.WriteLine(book);
+                }
+            }
+            else
+            {
+                Console.WriteLine("NO RESULT");
+            }
+
+            Console.WriteLine(new string('-', 10));
+        }
+
         static void Main(string[] args)
         {
             var mTable = new MTable<Book>();
@@ -12,10 +32,7 @@ namespace MTable
             if (File.Exists("data.bin"))
             {
                 var books = mTable.GetAll();
-                foreach (var book in books)
-                {
-                    Console.WriteLine(book);
-                }
+                PrintAll(books);
             }
             else
             {
@@ -27,6 +44,7 @@ namespace MTable
                 };
 
                 mTable.Add(book1);
+                Console.WriteLine($"{book1.Author} added");
 
                 var book2 = new Book
                 {
@@ -36,6 +54,32 @@ namespace MTable
                 };
 
                 mTable.Add(book2);
+                Console.WriteLine($"{book2.Author} added");
+
+                var books = mTable.GetAll();
+                PrintAll(books);
+
+                var book3 = new Book
+                {
+                    Author = "Book3",
+                    Title = "Bojan",
+                    Summary = "SummaryBook3"
+                };
+
+                mTable.Add(book3);
+                Console.WriteLine($"{book3.Author} added");
+
+                books = mTable.GetAll();
+                PrintAll(books);
+
+                mTable.Delete(b => b.Author == "Book2");
+                Console.WriteLine($"Book with author 'Book2' deleted");
+
+                books = mTable.GetAll();
+                PrintAll(books);
+
+                //books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
+                //PrintAll(books);
             }
 
             Console.ReadKey(true);
