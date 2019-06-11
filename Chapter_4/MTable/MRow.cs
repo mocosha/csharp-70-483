@@ -14,6 +14,21 @@ namespace MTable
         public DateTimeOffset? DeletedAt { get; set; }
     }
 
+    class IndexRow
+    {
+        //public Metadata Metadata { get; set; }
+        public string Column { get; set; }
+        public int Position { get; set; }
+    }
+
+    class Index<T>
+    {
+        public Index(Func<T, string> column)
+        {
+
+        }
+    }
+
     [Serializable]
     public class MRow<T> where T : ISerializable
     {

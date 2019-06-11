@@ -9,7 +9,6 @@ namespace MTable
     {
         private static void PrintAll(IEnumerable<Book> books)
         {
-            Console.WriteLine(new string('-', 10));
             if (books.Any())
             {
                 foreach (var book in books)
@@ -22,7 +21,7 @@ namespace MTable
                 Console.WriteLine("NO RESULT");
             }
 
-            Console.WriteLine(new string('-', 10));
+            Console.WriteLine(new string('-', 20));
         }
 
         static void Main(string[] args)
@@ -32,6 +31,9 @@ namespace MTable
             if (File.Exists("data.bin"))
             {
                 var books = mTable.GetAll();
+                PrintAll(books);
+
+                books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
                 PrintAll(books);
             }
             else
@@ -57,6 +59,7 @@ namespace MTable
                 Console.WriteLine($"{book2.Author} added");
 
                 var books = mTable.GetAll();
+                Console.WriteLine("PRINT ALL");
                 PrintAll(books);
 
                 var book3 = new Book
@@ -70,12 +73,14 @@ namespace MTable
                 Console.WriteLine($"{book3.Author} added");
 
                 books = mTable.GetAll();
+                Console.WriteLine("PRINT ALL");
                 PrintAll(books);
 
                 mTable.Delete(b => b.Author == "Book2");
                 Console.WriteLine($"Book with author 'Book2' deleted");
 
                 books = mTable.GetAll();
+                Console.WriteLine("PRINT ALL");
                 PrintAll(books);
 
                 //books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));

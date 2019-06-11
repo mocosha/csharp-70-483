@@ -6,8 +6,8 @@ namespace MTable
 {
     public interface IMTable<T> where T : ISerializable
     {
-        IEnumerable<T> Find(Predicate<T> filter);
         IEnumerable<T> GetAll();
+        IEnumerable<T> Find(Predicate<T> filter);
         int Add(T value);
         int Delete(Predicate<T> filter);
     }
