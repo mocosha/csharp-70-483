@@ -9,7 +9,6 @@ namespace MTable
     {
         public string Title { get; set; }
         public string Author { get; set; }
-        public string Summary { get; set; }
 
         public Book()
         {
@@ -24,7 +23,6 @@ namespace MTable
         {
             Title = info.GetString("Value1");
             Author = info.GetString("Value2");
-            Summary = info.GetString("Value3");
         }
 
         //[NonSerialized]
@@ -35,7 +33,6 @@ namespace MTable
         {
             info.AddValue("Value1", Title);
             info.AddValue("Value2", Author);
-            info.AddValue("Value3", Summary);
         }
     }
 }

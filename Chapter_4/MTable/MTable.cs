@@ -22,23 +22,44 @@ namespace MTable
                  .Where(i => predicate(i));
         }
 
+        // TODO: like ...
+        public IEnumerable<T> GetByKey(string value)
+        {
+            var positions = _index.GetPositions(value);
+
+            foreach (var item in positions)
+            {
+                var row = GetRowByPosition(item);
+                yield return row.Payload;
+            }
+        }
+
         public int Add(T value)
         {
             var row = new MRow<T>(value);
 
-            //long position = default(long);
+            long position = default(long);
             using (Stream stream = new FileStream("data.bin", FileMode.Append))
             {
                 using (BinaryWriter bw = new BinaryWriter(stream))
                 {
-                    //position = stream.Position;
-                    byte[] bytes = ObjectToByteArray(row);
+                    position = stream.Position;
+                    byte[] bytes = MRowToByteArray(row);
                     bw.Write(bytes.Length);
                     bw.Write(bytes);
                 }
             }
 
+            _index.AddProperty(value, position);
+            _index.Save();
+
             return 1;
+        }
+
+        public IMTable<T> CreateIndex(Index<T> ind)
+        {
+            _index = ind;
+            return this;
         }
 
         public int Delete(Predicate<T> predicate)
@@ -55,17 +76,23 @@ namespace MTable
                     i.Metadata.DeletedAt = DateTimeOffset.UtcNow;
                 });
 
+            _index.Recreate();
+
             using (Stream stream = new FileStream("data.bin", FileMode.Create))
             {
                 using (BinaryWriter bw = new BinaryWriter(stream))
                 {
-                    //position = stream.Position;
                     foreach (var row in allRows)
                     {
-                        byte[] bytes = ObjectToByteArray(row);
+                        long position = stream.Position;
+                        byte[] bytes = MRowToByteArray(row);
                         bw.Write(bytes.Length);
                         bw.Write(bytes);
+
+                        _index.AddProperty(row.Payload, position);
                     }
+
+                    _index.Save();
                 }
             }
 
@@ -90,6 +117,19 @@ namespace MTable
             }
         }
 
+        private MRow<T> GetRowByPosition(long position)
+        {
+            using (BinaryReader reader = new BinaryReader(File.Open("data.bin", FileMode.Open, FileAccess.Read)))
+            {
+                reader.BaseStream.Position = position;
+
+                int bytesToRead = reader.ReadInt32();
+                byte[] v = reader.ReadBytes(bytesToRead);
+                MRow<T> value = FromByteArray(v);
+                return value;
+            }
+        }
+
         private IEnumerable<T> GetAllNotDeletedRows()
         {
             return GetAllRows()
@@ -107,26 +147,7 @@ namespace MTable
             }
         }
 
-        private static Dictionary<object, long> FromByteArrayToDict(byte[] data)
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream(data))
-            {
-                object obj = bf.Deserialize(ms);
-                return (Dictionary<object, long>)obj;
-            }
-        }
-
-        private static byte[] ObjectsToByteArray(MRow<T> rows)
-        {
-            var bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
-            {
-                bf.Serialize(ms, rows);
-                return ms.ToArray();
-            }
-        }
-        private static byte[] ObjectToByteArray(MRow<T> row)
+        private static byte[] MRowToByteArray(MRow<T> row)
         {
             var bf = new BinaryFormatter();
             using (var ms = new MemoryStream())
@@ -136,11 +157,6 @@ namespace MTable
             }
         }
 
-        private static object GetPropValue(object src, string propName)
-        {
-            return src.GetType().GetProperty(propName).GetValue(src, null);
-        }
-
-
+        private Index<T> _index;
     }
 }

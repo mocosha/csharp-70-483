@@ -44,7 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Book.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="IMTable.cs" />
+    <Compile Include="Index.cs" />
     <Compile Include="MRow.cs" />
     <Compile Include="MTable.cs" />
     <Compile Include="Program.cs" />

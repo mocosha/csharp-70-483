@@ -10,5 +10,8 @@ namespace MTable
         IEnumerable<T> Find(Predicate<T> filter);
         int Add(T value);
         int Delete(Predicate<T> filter);
+
+        IEnumerable<T> GetByKey(string value);
+        IMTable<T> CreateIndex(Index<T> ind);
     }
 }

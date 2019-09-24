@@ -7,8 +7,84 @@ namespace MTable
 {
     class Program
     {
-        private static void PrintAll(IEnumerable<Book> books)
+        static void Main(string[] args)
         {
+            MTable<Book> mTable = CreateTable();
+
+            if (File.Exists("data.bin"))
+            {
+                var books = mTable.GetAll();
+                Print(books);
+
+                books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
+                Print(books);
+            }
+            else
+            {
+                var book = new Book
+                {
+                    Author = "Megan McCafferty",
+                    Title = "Epic Reads Book Club Sampler"
+                };
+
+                mTable.Add(book);
+                Console.WriteLine($"{book} added.");
+
+                book = new Book
+                {
+                    Author = "Lauren Oliver",
+                    Title = "The End Is Here: Teen Dystopian Sampler"
+                };
+
+                mTable.Add(book);
+                Console.WriteLine($"{book} added.");
+
+                book = new Book
+                {
+                    Author = "Mary Burton",
+                    Title = "Cut and Run"
+                };
+
+                mTable.Add(book);
+                Console.WriteLine($"{book} added.");
+
+                var authorForDelete = "Lauren Oliver";
+                mTable.Delete(b => b.Author == authorForDelete);
+                Console.WriteLine($"Book with author '{authorForDelete}' deleted.");
+
+                book = new Book
+                {
+                    Author = "Stephen King",
+                    Title = "A Brief History of Time"
+                };
+
+                mTable.Add(book);
+                Console.WriteLine($"{book} added.");
+
+                book = new Book
+                {
+                    Author = "Stephen King",
+                    Title = "The Shining"
+                };
+
+                mTable.Add(book);
+                Console.WriteLine($"{book} added.");
+
+                Console.WriteLine(new string('-', 50));
+
+                var authorKey = "Stephen King";
+                var books = mTable.GetByKey(authorKey);
+                foreach (var b in books)
+                {
+                    Console.WriteLine($"{b}");
+                }
+            }
+        }
+
+        private static void Print(IEnumerable<Book> books)
+        {
+            Console.WriteLine("PRINT");
+
             if (books.Any())
             {
                 foreach (var book in books)
@@ -21,73 +97,19 @@ namespace MTable
                 Console.WriteLine("NO RESULT");
             }
 
-            Console.WriteLine(new string('-', 20));
+            Console.WriteLine(new string('-', 50));
         }
 
-        static void Main(string[] args)
+        private static MTable<Book> CreateTable()
         {
             var mTable = new MTable<Book>();
 
-            if (File.Exists("data.bin"))
-            {
-                var books = mTable.GetAll();
-                PrintAll(books);
+            var authorIndex = new Index<Book>(x => x.Author);
 
-                books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
-                PrintAll(books);
-            }
-            else
-            {
-                var book1 = new Book
-                {
-                    Author = "Book1",
-                    Title = "TitleBook1",
-                    Summary = "SummaryBook1"
-                };
+            mTable
+                .CreateIndex(authorIndex);
 
-                mTable.Add(book1);
-                Console.WriteLine($"{book1.Author} added");
-
-                var book2 = new Book
-                {
-                    Author = "Book2",
-                    Title = "TitleBook2",
-                    Summary = "SummaryBook2"
-                };
-
-                mTable.Add(book2);
-                Console.WriteLine($"{book2.Author} added");
-
-                var books = mTable.GetAll();
-                Console.WriteLine("PRINT ALL");
-                PrintAll(books);
-
-                var book3 = new Book
-                {
-                    Author = "Book3",
-                    Title = "Bojan",
-                    Summary = "SummaryBook3"
-                };
-
-                mTable.Add(book3);
-                Console.WriteLine($"{book3.Author} added");
-
-                books = mTable.GetAll();
-                Console.WriteLine("PRINT ALL");
-                PrintAll(books);
-
-                mTable.Delete(b => b.Author == "Book2");
-                Console.WriteLine($"Book with author 'Book2' deleted");
-
-                books = mTable.GetAll();
-                Console.WriteLine("PRINT ALL");
-                PrintAll(books);
-
-                //books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
-                //PrintAll(books);
-            }
-
-            Console.ReadKey(true);
+            return mTable;
         }
     }
 }

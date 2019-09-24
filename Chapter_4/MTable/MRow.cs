@@ -18,15 +18,7 @@ namespace MTable
     {
         //public Metadata Metadata { get; set; }
         public string Column { get; set; }
-        public int Position { get; set; }
-    }
-
-    class Index<T>
-    {
-        public Index(Func<T, string> column)
-        {
-
-        }
+        public long Position { get; set; }
     }
 
     [Serializable]
