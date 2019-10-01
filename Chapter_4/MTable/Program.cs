@@ -16,7 +16,7 @@ namespace MTable
                 var books = mTable.GetAll();
                 Print(books);
 
-                books = mTable.Find(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
+                books = mTable.Filter(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
                 Print(books);
             }
             else
@@ -73,7 +73,16 @@ namespace MTable
                 Console.WriteLine(new string('-', 50));
 
                 var authorKey = "Stephen King";
-                var books = mTable.GetByKey(authorKey);
+                var books = mTable.SearchByIndex("IndexAuthor", authorKey);
+                Console.WriteLine("Serach by author results:");
+                foreach (var b in books)
+                {
+                    Console.WriteLine($"{b}");
+                }
+
+                var titleKey = "The";
+                books = mTable.SearchByIndex("IndexTitle", titleKey);
+                Console.WriteLine($"Serach by term '{titleKey}' title results:");
                 foreach (var b in books)
                 {
                     Console.WriteLine($"{b}");
@@ -104,10 +113,9 @@ namespace MTable
         {
             var mTable = new MTable<Book>();
 
-            var authorIndex = new Index<Book>(x => x.Author);
-
             mTable
-                .CreateIndex(authorIndex);
+                .CreateIndex("IndexAuthor", x => x.Author)
+                .CreateIndex("IndexTitle", m => m.Title);
 
             return mTable;
         }

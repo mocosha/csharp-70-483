@@ -9,13 +9,18 @@ namespace MTable
 {
     public class MTable<T> : IMTable<T> where T : ISerializable
     {
+        public MTable()
+        {
+            _indexes = new Dictionary<string, Index<T>>();
+        }
+
         public IEnumerable<T> GetAll()
         {
             return
                 GetAllNotDeletedRows();
         }
 
-        public IEnumerable<T> Find(Predicate<T> predicate)
+        public IEnumerable<T> Filter(Predicate<T> predicate)
         {
             return
                  GetAllNotDeletedRows()
@@ -23,9 +28,9 @@ namespace MTable
         }
 
         // TODO: like ...
-        public IEnumerable<T> GetByKey(string value)
+        public IEnumerable<T> SearchByIndex(string name, string value)
         {
-            var positions = _index.GetPositions(value);
+            var positions = _indexes[name].GetPositions(value);
 
             foreach (var item in positions)
             {
@@ -50,15 +55,21 @@ namespace MTable
                 }
             }
 
-            _index.AddProperty(value, position);
-            _index.Save();
+            foreach (var item in _indexes)
+            {
+                var index = item.Value;
+                index.AddProperty(value, position);
+                index.Save();
+            }
 
             return 1;
         }
 
-        public IMTable<T> CreateIndex(Index<T> ind)
+        public IMTable<T> CreateIndex(string indexName, Func<T, string> column)
         {
-            _index = ind;
+            var ind = new Index<T>(indexName, column);
+
+            _indexes.Add(indexName, ind);
             return this;
         }
 
@@ -76,7 +87,11 @@ namespace MTable
                     i.Metadata.DeletedAt = DateTimeOffset.UtcNow;
                 });
 
-            _index.Recreate();
+            foreach (var item in _indexes)
+            {
+                item.Value.Recreate();
+            }
+
 
             using (Stream stream = new FileStream("data.bin", FileMode.Create))
             {
@@ -89,10 +104,17 @@ namespace MTable
                         bw.Write(bytes.Length);
                         bw.Write(bytes);
 
-                        _index.AddProperty(row.Payload, position);
+                        foreach (var item in _indexes)
+                        {
+                            var index = item.Value;
+                            index.AddProperty(row.Payload, position);
+                        }
                     }
 
-                    _index.Save();
+                    foreach (var item in _indexes)
+                    {
+                        item.Value.Save();
+                    }
                 }
             }
 
@@ -157,6 +179,6 @@ namespace MTable
             }
         }
 
-        private Index<T> _index;
+        private Dictionary<string, Index<T>> _indexes;
     }
 }

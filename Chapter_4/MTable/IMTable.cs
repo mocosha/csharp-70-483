@@ -7,11 +7,11 @@ namespace MTable
     public interface IMTable<T> where T : ISerializable
     {
         IEnumerable<T> GetAll();
-        IEnumerable<T> Find(Predicate<T> filter);
+        IEnumerable<T> Filter(Predicate<T> filter);
         int Add(T value);
         int Delete(Predicate<T> filter);
 
-        IEnumerable<T> GetByKey(string value);
-        IMTable<T> CreateIndex(Index<T> ind);
+        IEnumerable<T> SearchByIndex(string indexName, string value);
+        IMTable<T> CreateIndex(string name, Func<T, string> column);
     }
 }

@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Book.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IIndex.cs" />
     <Compile Include="IMTable.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="MRow.cs" />

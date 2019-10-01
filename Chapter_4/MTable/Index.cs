@@ -5,19 +5,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MTable
 {
-    interface IIndex<T>
-    {
-        void AddProperty(T value, long position);
-        void Save();
-        void Recreate();
-        List<long> GetPositions(string value);
-    }
-
     public class Index<T> : IIndex<T>
     {
-        public Index(Func<T, string> column)
+        public string Name { get; set; }
+
+        public Index(string name, Func<T, string> column)
         {
+            Name = name;
             Get = column;
+
+            // TODO: read indexes if exists
+            // Init()
             Recreate();
         }
 
@@ -29,6 +27,16 @@ namespace MTable
         {
             var property = Get(value);
 
+            AddTerm(property, position);
+
+            foreach (var term in property.Split(" .,`".ToCharArray()))
+            {
+                AddTerm(term, position);
+            }
+        }
+
+        private void AddTerm(string property, long position)
+        {
             if (_indexes.ContainsKey(property))
             {
                 _indexes[property].Add(position);
@@ -51,7 +59,7 @@ namespace MTable
 
         public void Save()
         {
-            _indexes.SaveToFile("index.bin");
+            _indexes.SaveToFile($"{Name}.bin");
         }
 
         public void Recreate()
