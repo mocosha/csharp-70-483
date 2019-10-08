@@ -9,90 +9,97 @@ namespace MTable
     {
         static void Main(string[] args)
         {
-            MTable<Book> mTable = CreateTable();
+            var mTable = new MTable<Book>();
 
-            if (File.Exists("data.bin"))
+            mTable
+               .CreateIndex("IndexAuthor", x => x.Author)
+               .CreateIndex("IndexTitle", m => m.Title);
+
+            if (mTable.Exists())
             {
-                var books = mTable.GetAll();
-                Print(books);
-
-                books = mTable.Filter(b => b.Title.StartsWith("bojan", StringComparison.OrdinalIgnoreCase));
-                Print(books);
+                mTable.RecreateIndexes();
             }
             else
             {
-                var book = new Book
-                {
-                    Author = "Megan McCafferty",
-                    Title = "Epic Reads Book Club Sampler"
-                };
+                LoadDemoData(mTable);
+            }
 
-                mTable.Add(book);
-                Console.WriteLine($"{book} added.");
+            Print(mTable.GetAll());
 
-                book = new Book
-                {
-                    Author = "Lauren Oliver",
-                    Title = "The End Is Here: Teen Dystopian Sampler"
-                };
+            Search(mTable);
+        }
 
-                mTable.Add(book);
-                Console.WriteLine($"{book} added.");
+        private static void LoadDemoData(MTable<Book> mTable)
+        {
+            mTable.Add(new Book
+            {
+                Author = "Megan McCafferty",
+                Title = "Epic Reads Book Club Sampler"
+            });
 
-                book = new Book
-                {
-                    Author = "Mary Burton",
-                    Title = "Cut and Run"
-                };
+            mTable.Add(new Book
+            {
+                Author = "Lauren Oliver",
+                Title = "The End Is Here: Teen Dystopian Sampler"
+            });
 
-                mTable.Add(book);
-                Console.WriteLine($"{book} added.");
+            mTable.Add(new Book
+            {
+                Author = "Charles Dickens",
+                Title = "Oliver Twist"
+            });
 
-                var authorForDelete = "Lauren Oliver";
-                mTable.Delete(b => b.Author == authorForDelete);
-                Console.WriteLine($"Book with author '{authorForDelete}' deleted.");
+            mTable.Add(new Book
+            {
+                Author = "Mary Burton",
+                Title = "Cut and Run"
+            });
 
-                book = new Book
-                {
-                    Author = "Stephen King",
-                    Title = "A Brief History of Time"
-                };
+            mTable.Add(new Book
+            {
+                Author = "Stephen King",
+                Title = "A Brief History of Time"
+            });
 
-                mTable.Add(book);
-                Console.WriteLine($"{book} added.");
+            mTable.Add(new Book
+            {
+                Author = "Stephen King",
+                Title = "The Shining"
+            });
+        }
 
-                book = new Book
-                {
-                    Author = "Stephen King",
-                    Title = "The Shining"
-                };
+        static void Search(MTable<Book> mTable)
+        {
+            Console.WriteLine(new string('-', 50));
+            
+            var authorKey = "Stephen";
+            var books = mTable.SearchByIndex("IndexAuthor", authorKey);
+            Console.WriteLine($"Search by author '{authorKey}' results:");
+            foreach (var b in books)
+            {
+                Console.WriteLine($"\t{b}");
+            }
 
-                mTable.Add(book);
-                Console.WriteLine($"{book} added.");
+            var term = "The";
+            books = mTable.SearchByIndex("IndexTitle", term);
+            Console.WriteLine($"Search by term '{term}' results:");
+            foreach (var b in books)
+            {
+                Console.WriteLine($"\t{b}");
+            }
 
-                Console.WriteLine(new string('-', 50));
-
-                var authorKey = "Stephen King";
-                var books = mTable.SearchByIndex("IndexAuthor", authorKey);
-                Console.WriteLine("Serach by author results:");
-                foreach (var b in books)
-                {
-                    Console.WriteLine($"{b}");
-                }
-
-                var titleKey = "The";
-                books = mTable.SearchByIndex("IndexTitle", titleKey);
-                Console.WriteLine($"Serach by term '{titleKey}' title results:");
-                foreach (var b in books)
-                {
-                    Console.WriteLine($"{b}");
-                }
+            term = "Oliver";
+            books = mTable.Search(term);
+            Console.WriteLine($"Search by term '{term}' results:");
+            foreach (var b in books)
+            {
+                Console.WriteLine($"\t{b}");
             }
         }
 
         private static void Print(IEnumerable<Book> books)
         {
-            Console.WriteLine("PRINT");
+            Console.WriteLine("Show all database items (Author - Title):");
 
             if (books.Any())
             {
@@ -105,19 +112,6 @@ namespace MTable
             {
                 Console.WriteLine("NO RESULT");
             }
-
-            Console.WriteLine(new string('-', 50));
-        }
-
-        private static MTable<Book> CreateTable()
-        {
-            var mTable = new MTable<Book>();
-
-            mTable
-                .CreateIndex("IndexAuthor", x => x.Author)
-                .CreateIndex("IndexTitle", m => m.Title);
-
-            return mTable;
         }
     }
 }

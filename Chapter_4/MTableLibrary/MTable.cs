@@ -9,6 +9,8 @@ namespace MTable
 {
     public class MTable<T> : IMTable<T> where T : ISerializable
     {
+        private const string dbName = "data.bin";
+
         public MTable()
         {
             _indexes = new Dictionary<string, Index<T>>();
@@ -39,12 +41,31 @@ namespace MTable
             }
         }
 
+        public IEnumerable<T> Search(string value)
+        {
+            foreach (var index in _indexes.Select(x => x.Value))
+            {
+                var positions = index.GetPositions(value);
+
+                foreach (var position in positions)
+                {
+                    var row = GetRowByPosition(position);
+                    yield return row.Payload;
+                }
+            }
+        }
+
+        public bool Exists()
+        {
+            return File.Exists(dbName);
+        }
+
         public int Add(T value)
         {
             var row = new MRow<T>(value);
 
             long position = default(long);
-            using (Stream stream = new FileStream("data.bin", FileMode.Append))
+            using (Stream stream = new FileStream(dbName, FileMode.Append))
             {
                 using (BinaryWriter bw = new BinaryWriter(stream))
                 {
@@ -59,7 +80,6 @@ namespace MTable
             {
                 var index = item.Value;
                 index.AddProperty(value, position);
-                index.Save();
             }
 
             return 1;
@@ -87,13 +107,24 @@ namespace MTable
                     i.Metadata.DeletedAt = DateTimeOffset.UtcNow;
                 });
 
+            RecreateIndexes(allRows);
+
+            return forDeleted.Count();
+        }
+
+        public void RecreateIndexes()
+        {
+            RecreateIndexes(GetAllRows());
+        }
+
+        private void RecreateIndexes(IEnumerable<MRow<T>> allRows)
+        {
             foreach (var item in _indexes)
             {
-                item.Value.Recreate();
+                item.Value.Clear();
             }
 
-
-            using (Stream stream = new FileStream("data.bin", FileMode.Create))
+            using (Stream stream = new FileStream(dbName, FileMode.Create))
             {
                 using (BinaryWriter bw = new BinaryWriter(stream))
                 {
@@ -110,20 +141,13 @@ namespace MTable
                             index.AddProperty(row.Payload, position);
                         }
                     }
-
-                    foreach (var item in _indexes)
-                    {
-                        item.Value.Save();
-                    }
                 }
             }
-
-            return forDeleted.Count();
         }
 
         private IEnumerable<MRow<T>> GetAllRows()
         {
-            using (BinaryReader reader = new BinaryReader(File.Open("data.bin", FileMode.Open, FileAccess.Read)))
+            using (BinaryReader reader = new BinaryReader(File.Open(dbName, FileMode.Open, FileAccess.Read)))
             {
                 int length = (int)reader.BaseStream.Length;
                 var rows = new List<MRow<T>>();
@@ -141,7 +165,7 @@ namespace MTable
 
         private MRow<T> GetRowByPosition(long position)
         {
-            using (BinaryReader reader = new BinaryReader(File.Open("data.bin", FileMode.Open, FileAccess.Read)))
+            using (BinaryReader reader = new BinaryReader(File.Open(dbName, FileMode.Open, FileAccess.Read)))
             {
                 reader.BaseStream.Position = position;
 

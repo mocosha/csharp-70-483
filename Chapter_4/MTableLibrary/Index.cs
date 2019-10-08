@@ -13,10 +13,7 @@ namespace MTable
         {
             Name = name;
             Get = column;
-
-            // TODO: read indexes if exists
-            // Init()
-            Recreate();
+            Clear();
         }
 
         private Func<T, string> Get { get; set; }
@@ -57,12 +54,7 @@ namespace MTable
             return new List<long>();
         }
 
-        public void Save()
-        {
-            _indexes.SaveToFile($"{Name}.bin");
-        }
-
-        public void Recreate()
+        public void Clear()
         {
             _indexes = new Dictionary<string, List<long>>();
         }

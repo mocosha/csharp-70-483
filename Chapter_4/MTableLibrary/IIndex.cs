@@ -5,8 +5,7 @@ namespace MTable
     interface IIndex<T>
     {
         void AddProperty(T value, long position);
-        void Save();
-        void Recreate();
+        void Clear();
         List<long> GetPositions(string value);
     }
 }
